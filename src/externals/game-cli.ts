@@ -1,6 +1,7 @@
 import prompts from "prompts";
 
-import StartGame from "../app/use-cases/start-game/start-game";
+import StartGame from "../app/use-cases/start-blackjack-game/start-blackjack-game";
+import config from "../config";
 
 const main = async () => {
   const gameTitle =
@@ -16,7 +17,14 @@ const main = async () => {
   });
 
   console.log(`Starting the game #1 with ${playersAmount.response} players`);
-  console.log("Players start with $1,000");
+  console.log("Players start with $1,000 \n");
+
+  const newGame = await StartGame.execute({
+    playersAmount: playersAmount.response,
+    gameRepository: config.repositories.gameRepository,
+  });
+
+  console.log({ newGame });
 
   // ask for bet on each player
   // ... starting the game

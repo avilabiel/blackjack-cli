@@ -15,17 +15,15 @@ type Round = {
 };
 
 export default class BlackjackGame {
-  id?: string;
-  dealer: Player;
+  id?: number;
   players: Player[];
   rounds: Round[];
   winners: Player[];
-  createdAt: string;
-  finishedAt: string;
+  createdAt: Date;
+  finishedAt?: Date;
 
   constructor(props: BlackjackGame) {
     this.id = props.id;
-    this.dealer = props.dealer;
     this.players = props.players;
     this.rounds = props.rounds;
     this.winners = props.winners;

@@ -57,11 +57,14 @@ Some constraints:
 
 These are the improvements that we will implement in the next versions of this CLI game:
 
-1. Persist games and ranks by player names instead of just In memory
+1. Persist games and ranks by player names instead of just in memory. Since we are following SOLID principles and using Clean Architecture, this is easy to implement, we just need to create the new repository and change the config.repositories
 2. Support different colors of cards
 3. Support Side Bets
 4. Support Perfect Pairs
 5. Support Insurance
+6. Players can login and set their nickname
+7. Players have a balance outside of the game like deposited money in the house
+8. There is a rank with the top nicknames
 
 ## Hours spent
 
