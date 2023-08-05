@@ -7,7 +7,7 @@ This repository aims to bring a playable Blackjack on CLI using Node.JS, Typescr
 The rules are:
 
 1. The app asks for how many players are at the table
-2. Each player stars with $1000
+2. Each player starts with $1000
 3. Each player can set any integer number to bet
 4. Whenever the player
 
@@ -25,23 +25,43 @@ Each participant attempts to beat the dealer by getting a count as close to 21 a
 
 ### Game flow
 
-1. All players place their bets
-2. Then, all players and the dealer receive 1 card face up
-3. Right after, all players receive another card face up, but the dealer takes the second card face down
-4. If the player has a blackjack and the dealer doesn't, dealer must pay 1.5x the given bet of this player
+1. Players place their bets
+2. Players and the dealer receive 1 card face up
+3. Players receive another card face up, but the dealer takes the second card face down
+4. If the player has a blackjack (21) and the dealer doesn't, the player wins
+5. If the player and dealer have a blackjack (21), it's a push
+6. If neither side has a blackjack, then each player plays out his hand, one at a time
 
-WIP: stopping here because it's already late. Getting back later!
+### Prizes
 
-### Double
+- Push: Dealer and Player have the same score, no one gets a prize
+- Player win: Player has a closer hand to 21 or 21. Player gets bet amount + bet amount (1x)
+- Dealer win: Dealer has a closer hand to 21 or 21
 
-It also supports more complex rules such as doubling-down and splitting.
+- Blackjack: Whenever the player starts with a blackjack (21) and the dealer doesn't have a blackjack, the player's prize is 1.5x
+
+### Splitting
+
+Whenever you have cards that worth the same value, the player can split them into two separate games.
+
+### Doubling down
+
+Whenever the two cards are distributed, the player can double their bet. The player will receive another card after doubling it.
+
+Some constraints:
+
+- Players that hit cannot double their bets
+- Players that doubled their bets cannot hit again, i.e. they will receive just one more card
 
 ## Next versions
 
 These are the improvements that we will implement in the next versions of this CLI game:
 
 1. Persist games and ranks by player names instead of just In memory
-2. Implement more
+2. Support different colors of cards
+3. Support Side Bets
+4. Support Perfect Pairs
+5. Support Insurance
 
 ## Hours spent
 
@@ -50,4 +70,10 @@ So far, it was spent:
 1. An hour understanding the requirements
 2. More 2 hours coding the game
 
-## Clean Architecture
+## How to contribute
+
+### SOLID
+
+### Clean Architecture
+
+We are using
