@@ -6,8 +6,8 @@
   "author": "Gabriel Ávila <avilabiel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn tsc .",
-    "start-cli": "node dist/src/externals/game-cli"
+    "build": "yarn tsc",
+    "start-cli": "node ./dist/externals/game-cli"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",

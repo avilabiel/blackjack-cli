@@ -2,7 +2,7 @@ import IUseCase from "../../contracts/i-use-case";
 
 class StartGame implements IUseCase {
   async execute(): Promise<void> {
-    console.log("Test!!");
+    console.log("Test 22344!!");
   }
 }
 
