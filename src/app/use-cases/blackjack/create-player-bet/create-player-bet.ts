@@ -2,12 +2,10 @@ import BlackjackGame, { Bet } from "@/entities/blackjack-game";
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
 
-// TODO: save the game state
-// TODO: improve the way we save the player balance in the game right after a bet
-// we should save game.players[i].balance. Saving only game.bets[i].player.balance is not predictable
 // TODO: implement other use cases
 // TODO: finish CLI
 // TODO: implement the start game on REST
+// TODO: Apply linter
 class CreatePlayerBet implements IUseCase {
   async execute({
     betAmount,

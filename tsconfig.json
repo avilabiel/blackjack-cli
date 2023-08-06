@@ -1,18 +1,32 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
+    "target": "ES6",
+    "module": "CommonJS",
+    "rootDir": ".",
+    "lib": ["es2017", "es7", "es6"],
     "baseUrl": "./",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist/types",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["src/*"]
+    },
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"],
-
-  "plugins": [
-    {
-      "transform": "typescript-transform-paths"
-    }
-  ]
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "extraFileExtensions": [".json"]
+  },
+  "exclude": ["node_modules", "dist"]
 }

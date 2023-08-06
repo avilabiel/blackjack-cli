@@ -6,8 +6,8 @@
   "author": "Gabriel Ávila <avilabiel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn ttsc -P tsconfig.json",
-    "start-cli": "node ./dist/externals/game-cli",
+    "build": "ttsc -P tsconfig.json",
+    "start-cli": "node ./dist/src/externals/game-cli",
     "test": "jest --coverage=false",
     "test:coverage": "jest"
   },

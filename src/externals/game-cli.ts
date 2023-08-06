@@ -2,6 +2,7 @@ import prompts from "prompts";
 
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import config from "@/config";
+import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
 
 const main = async () => {
   const gameTitle =
@@ -24,7 +25,26 @@ const main = async () => {
     gameRepository: config.repositories.gameRepository,
   });
 
-  console.log({ newGame });
+  // round wraper
+  for (let i = 1; i <= playersAmount.response; i++) {
+    const playerBet = await prompts({
+      type: "number",
+      name: "response",
+      message: `Player #${i}, please let us know your bet (any integer)`,
+      validate: async (value) => {
+        const bet = await CreatePlayerBet.execute({
+          betAmount: value,
+          playerId: i,
+          gameId: newGame.id as number,
+          gameRepository: config.repositories.gameRepository,
+        });
+
+        return Boolean(bet);
+      },
+    });
+
+    console.log({ playerBet });
+  }
 
   // ask for bet on each player
   // ... starting the game
