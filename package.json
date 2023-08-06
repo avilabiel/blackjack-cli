@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn tsc",
-    "start-cli": "node ./dist/externals/game-cli"
+    "start-cli": "node ./dist/externals/game-cli",
+    "test": "jest --coverage=false",
+    "test:coverage": "jest"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",

@@ -1,5 +1,6 @@
 /** @type {import('jest').Config} */
 module.exports = {
+  preset: "ts-jest",
   rootDir: "./",
   roots: ["<rootDir>"],
   testEnvironment: "node",
