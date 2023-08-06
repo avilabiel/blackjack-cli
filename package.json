@@ -6,7 +6,7 @@
   "author": "Gabriel Ávila <avilabiel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn tsc",
+    "build": "yarn ttsc -P tsconfig.json",
     "start-cli": "node ./dist/externals/game-cli",
     "test": "jest --coverage=false",
     "test:coverage": "jest"
@@ -19,7 +19,9 @@
     "@types/prompts": "^2.4.4",
     "jest": "^29.6.2",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.1.6"
+    "ttsc": "^0.3.1",
+    "typescript": "^5.1.6",
+    "typescript-transform-paths": "^3.4.6"
   },
   "dependencies": {
     "prompts": "^2.4.2"

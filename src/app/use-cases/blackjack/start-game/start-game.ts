@@ -1,8 +1,8 @@
-import BlackjackGame from "../../../../entities/blackjack-game";
-import Game from "../../../../entities/game";
-import Player from "../../../../entities/player";
-import IGameRepository from "../../../contracts/i-game-repository";
-import IUseCase from "../../../contracts/i-use-case";
+import BlackjackGame from "@/entities/blackjack-game";
+import Game from "@/entities/game";
+import Player from "@/entities/player";
+import IGameRepository from "@/app/contracts/i-game-repository";
+import IUseCase from "@/app/contracts/i-use-case";
 
 const START_AMOUNT_FOR_NEW_PLAYERS = 1000;
 

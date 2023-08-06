@@ -1,5 +1,5 @@
 import StartGame from ".";
-import GameRepositoryInMemory from "../../../../externals/database/game-repository-in-memory";
+import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
 
 describe("StartGame", () => {
   it("starts a new game with the given amount of players", async () => {

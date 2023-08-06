@@ -1,6 +1,6 @@
 import CreatePlayerBet from ".";
-import GameRepositoryInMemory from "../../../../externals/database/game-repository-in-memory";
-import StartGame from "../start-game";
+import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
+import StartGame from "@/app/use-cases/blackjack/start-game";
 
 describe("CreatePlayerBet", () => {
   it("creates a bet for the given player", async () => {

@@ -1,5 +1,4 @@
-import Game from "../../entities/game";
-import Player from "../../entities/player";
+import Game from "@/entities/game";
 
 export default interface IGameRepository {
   startGame(game: Game): Promise<Game>;

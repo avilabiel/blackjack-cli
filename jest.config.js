@@ -8,4 +8,11 @@ module.exports = {
   modulePathIgnorePatterns: ["<rootDir>/dist"],
   coveragePathIgnorePatterns: ["/node_modules", "/test"],
   testTimeout: 30000,
+  transform: {
+    ".+\\.ts$": "ts-jest",
+  },
+  moduleNameMapper: {
+    "@/(.*)": "<rootDir>/src/$1",
+    "test/(.*)": "<rootDir>/test/$1",
+  },
 };

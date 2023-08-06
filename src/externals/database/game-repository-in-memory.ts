@@ -1,6 +1,6 @@
-import IGameRepository from "../../app/contracts/i-game-repository";
-import Game from "../../entities/game";
-import Player from "../../entities/player";
+import IGameRepository from "@/app/contracts/i-game-repository";
+import Game from "@/entities/game";
+import Player from "@/entities/player";
 
 export default class GameRepositoryInMemory implements IGameRepository {
   private games: Game[] = [];

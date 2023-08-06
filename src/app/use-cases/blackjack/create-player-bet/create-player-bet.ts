@@ -1,8 +1,7 @@
-import BlackjackGame, { Bet } from "../../../../entities/blackjack-game";
-import IGameRepository from "../../../contracts/i-game-repository";
-import IUseCase from "../../../contracts/i-use-case";
+import BlackjackGame, { Bet } from "@/entities/blackjack-game";
+import IGameRepository from "@/app/contracts/i-game-repository";
+import IUseCase from "@/app/contracts/i-use-case";
 
-// TODO: put absolute path
 // TODO: improve tests for create bet
 // TODO: save the game state
 // TODO: implement other use cases

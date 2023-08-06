@@ -1,7 +1,7 @@
 import prompts from "prompts";
 
-import StartGame from "../app/use-cases/blackjack/start-game";
-import config from "../config";
+import StartGame from "@/app/use-cases/blackjack/start-game";
+import config from "@/config";
 
 const main = async () => {
   const gameTitle =
