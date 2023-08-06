@@ -20,33 +20,50 @@ const main = async () => {
   console.log(`Starting the game #1 with ${playersAmount.response} players`);
   console.log("Players start with $1,000 \n");
 
+  const gameRepository = config.repositories.gameRepository;
+
   const newGame = await StartGame.execute({
     playersAmount: playersAmount.response,
-    gameRepository: config.repositories.gameRepository,
+    gameRepository,
   });
 
   // round wraper
-  for (let i = 1; i <= playersAmount.response; i++) {
-    const playerBet = await prompts({
-      type: "number",
-      name: "response",
-      message: `Player #${i}, please let us know your bet (any integer)`,
-      validate: async (value) => {
-        const bet = await CreatePlayerBet.execute({
-          betAmount: value,
-          playerId: i,
-          gameId: newGame.id as number,
-          gameRepository: config.repositories.gameRepository,
+  let round = 0;
+
+  while (true) {
+    for (let i = 1; i <= playersAmount.response; i++) {
+      const isBetRound = round === 0;
+
+      if (isBetRound) {
+        await prompts({
+          type: "number",
+          name: "response",
+          message: `Player #${i}, please let us know your bet (any integer)`,
+          validate: async (value) => {
+            try {
+              const bet = await CreatePlayerBet.execute({
+                betAmount: value,
+                playerId: i,
+                gameId: newGame.id as number,
+                gameRepository: config.repositories.gameRepository,
+              });
+
+              return true;
+            } catch (error: any) {
+              return error.message;
+            }
+          },
         });
+      }
 
-        return Boolean(bet);
-      },
-    });
+      const updatedGame = await gameRepository.getGameById(newGame.id);
 
-    console.log({ playerBet });
+      console.dir({ updatedGame }, { depth: null });
+    }
+
+    round++;
   }
 
-  // ask for bet on each player
   // ... starting the game
   // 1st round: give one card for each player and dealer
   // 2nd round: give another card for each player and a card face down for the dealer
