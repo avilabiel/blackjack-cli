@@ -3,11 +3,11 @@ import BlackjackGame from "../../entities/blackjack-game";
 import Player from "../../entities/player";
 
 export default class GameRepositoryInMemory implements IGameRepository {
-  private games: BlackjackGame[] | any[] = [];
+  private blackjackGames: BlackjackGame[] = [];
 
   startBlackjackGame(players: Player[]): Promise<BlackjackGame> {
     const newGame = new BlackjackGame({
-      id: this.games.length + 1,
+      id: this.blackjackGames.length + 1,
       players,
       bets: [],
       rounds: [],
@@ -15,7 +15,7 @@ export default class GameRepositoryInMemory implements IGameRepository {
       createdAt: new Date(),
     });
 
-    this.games.push(newGame);
+    this.blackjackGames.push(newGame);
 
     return Promise.resolve(newGame);
   }
