@@ -26,22 +26,113 @@ describe("CreatePlayerBet", () => {
     });
   });
 
-  it("creates a bet for each player", async () => {
+  it("creates a bet for each player with different amounts", async () => {
+    const playersAmount = 3;
+    const gameRepository = new GameRepositoryInMemory();
+
+    const game = await StartGame.execute({ playersAmount, gameRepository });
+
+    const firstPlayer = game.players[0];
+    const secondPlayer = game.players[1];
+    const thirdPlayer = game.players[2];
+
+    const persistedBetFirstPlayer = await CreatePlayerBet.execute({
+      betAmount: 100,
+      playerId: firstPlayer.id as number,
+      gameId: game.id as number,
+      gameRepository,
+    });
+
+    const persistedBetSecondPlayer = await CreatePlayerBet.execute({
+      betAmount: 200,
+      playerId: secondPlayer.id as number,
+      gameId: game.id as number,
+      gameRepository,
+    });
+
+    const persistedBetThirdPlayer = await CreatePlayerBet.execute({
+      betAmount: 300,
+      playerId: thirdPlayer.id as number,
+      gameId: game.id as number,
+      gameRepository,
+    });
+
+    expect(persistedBetFirstPlayer.bet).toEqual(100);
+    expect(persistedBetFirstPlayer.player).toMatchObject({
+      id: firstPlayer.id,
+      balance: 900,
+    });
+    expect(persistedBetSecondPlayer.bet).toEqual(200);
+    expect(persistedBetSecondPlayer.player).toMatchObject({
+      id: secondPlayer.id,
+      balance: 800,
+    });
+    expect(persistedBetThirdPlayer.bet).toEqual(300);
+    expect(persistedBetThirdPlayer.player).toMatchObject({
+      id: thirdPlayer.id,
+      balance: 700,
+    });
+  });
+
+  it("throws an error when player does not have enough balance", async () => {
     const playersAmount = 4;
     const gameRepository = new GameRepositoryInMemory();
 
     const game = await StartGame.execute({ playersAmount, gameRepository });
-  });
 
-  it("throws an error when player does not have enough balance", async () => {
-    expect(1).toBe(1);
-  });
+    const betAmount = 1200;
+    const player = game.players[0];
 
-  it("throws an error when player is not found", async () => {
-    expect(1).toBe(1);
+    try {
+      await CreatePlayerBet.execute({
+        betAmount,
+        playerId: player.id as number,
+        gameId: game.id as number,
+        gameRepository,
+      });
+    } catch (error: any) {
+      expect(error.message).toEqual("Player does not have enough balance!");
+    }
   });
 
   it("throws an error when game is not found", async () => {
-    expect(1).toBe(1);
+    const playersAmount = 4;
+    const gameRepository = new GameRepositoryInMemory();
+
+    const game = await StartGame.execute({ playersAmount, gameRepository });
+
+    const betAmount = 100;
+    const player = game.players[0];
+
+    try {
+      await CreatePlayerBet.execute({
+        betAmount,
+        playerId: player.id as number,
+        gameId: 12340589,
+        gameRepository,
+      });
+    } catch (error: any) {
+      expect(error.message).toEqual("Game not found!");
+    }
+  });
+
+  it("throws an error when player is not found", async () => {
+    const playersAmount = 4;
+    const gameRepository = new GameRepositoryInMemory();
+
+    const game = await StartGame.execute({ playersAmount, gameRepository });
+
+    const betAmount = 100;
+
+    try {
+      await CreatePlayerBet.execute({
+        betAmount,
+        playerId: 392103012,
+        gameId: game.id as number,
+        gameRepository,
+      });
+    } catch (error: any) {
+      expect(error.message).toEqual("Player not found in this game!");
+    }
   });
 });
