@@ -57,16 +57,17 @@ Some constraints:
 
 These are the improvements that we will implement in the next versions of this CLI game:
 
-1. Persist games and ranks by player names instead of just in memory. Since we are following SOLID principles and using Clean Architecture, this is easy to implement, we just need to create the new repository and change the config.repositories
-2. Finish the REST implementation. With SOLID and Clean Archicture, this is easy. We just need to implement the use cases in REST paradigm
-3. Support different colors of cards
-4. Support Side Bets
-5. Support Perfect Pairs
-6. Support Insurance
-7. Players can login and set their nickname
-8. Players have a balance outside of the game like deposited money in the house
-9. There is a rank with the top nicknames
-10. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
+1. Support different suits and colors of cards
+2. Give random and unique cards, i.e. if the card was picked previously, it shouldn't appear again
+3. Persist games and ranks by player names instead of just in memory. Since we are following SOLID principles and using Clean Architecture, this is easy to implement, we just need to create the new repository and change the config.repositories
+4. Finish the REST implementation. With SOLID and Clean Archicture, this is easy. We just need to implement the use cases in REST paradigm
+5. Support Side Bets
+6. Support Perfect Pairs
+7. Support Insurance
+8. Players can login and set their nickname
+9. Players have a balance outside of the game like deposited money in the house
+10. There is a rank with the top nicknames
+11. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
 
 ## Hours spent
 

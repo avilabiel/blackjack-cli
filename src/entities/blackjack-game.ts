@@ -1,16 +1,8 @@
 import Player from "./player";
 
-export enum CardSuit {
-  CLUBS = "♣",
-  SPADES = "♠",
-  HEARTS = "♥",
-  DIAMONDS = "♦",
-}
-
 export type Card = {
   value: number | string;
   worth: number;
-  suit: CardSuit;
   isFaceUp: boolean;
 };
 

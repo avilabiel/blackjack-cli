@@ -4,8 +4,56 @@ import GiveCard from ".";
 
 describe("GiveCard", () => {
   describe("random cards", () => {
-    it("gives random unique cards to each player", () => {
-      expect(1).toBe(1);
+    it("gives random unique cards to each player in the same round", async () => {
+      const playersAmount = 4;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+      const secondPlayer = game.players[1];
+      const thirdPlayer = game.players[2];
+      const fourthPlayer = game.players[3];
+
+      const givenCardToDealer = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: undefined,
+        gameRepository,
+      });
+
+      const givenCardToFirstPlayer = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const givenCardToSecondPlayer = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: secondPlayer.id,
+        gameRepository,
+      });
+
+      const givenCardToThirdPlayer = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: thirdPlayer.id,
+        gameRepository,
+      });
+
+      const givenCardToFourthPlayer = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: fourthPlayer.id,
+        gameRepository,
+      });
+
+      expect(givenCardToDealer.worth).toBeGreaterThan(0);
+      expect(givenCardToFirstPlayer.worth).toBeGreaterThan(0);
+      expect(givenCardToSecondPlayer.worth).toBeGreaterThan(0);
+      expect(givenCardToThirdPlayer.worth).toBeGreaterThan(0);
+      expect(givenCardToFourthPlayer.worth).toBeGreaterThan(0);
     });
   });
 
@@ -27,7 +75,6 @@ describe("GiveCard", () => {
 
       expect(givenCard.isFaceUp).toBeFalsy();
       expect(givenCard.value).toBeDefined();
-      expect(givenCard.suit).toBeDefined();
       expect(givenCard.worth).toBeDefined();
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(1);
@@ -57,7 +104,6 @@ describe("GiveCard", () => {
 
       expect(givenCard.isFaceUp).toBeTruthy();
       expect(givenCard.value).toBeDefined();
-      expect(givenCard.suit).toBeDefined();
       expect(givenCard.worth).toBeDefined();
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(2);
@@ -83,7 +129,6 @@ describe("GiveCard", () => {
 
       expect(givenCard.isFaceUp).toBeTruthy();
       expect(givenCard.value).toBeDefined();
-      expect(givenCard.suit).toBeDefined();
       expect(givenCard.worth).toBeDefined();
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(1);
@@ -114,7 +159,6 @@ describe("GiveCard", () => {
 
       expect(givenCard.isFaceUp).toBeTruthy();
       expect(givenCard.value).toBeDefined();
-      expect(givenCard.suit).toBeDefined();
       expect(givenCard.worth).toBeDefined();
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(2);

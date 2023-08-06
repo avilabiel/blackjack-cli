@@ -1,6 +1,6 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
-import { Card, CardSuit, Round } from "@/entities/blackjack-game";
+import { Card, Round } from "@/entities/blackjack-game";
 import Game from "@/entities/game";
 
 class GiveCard implements IUseCase {
@@ -75,12 +75,40 @@ class GiveCard implements IUseCase {
   }
 
   private getRandomUniqueCard(): Card {
+    const possibleCards = [
+      "A",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "J",
+      "Q",
+      "K",
+    ];
+    const min = 0;
+    const max = possibleCards.length - 1;
+    const randomIndex = Math.floor(Math.random() * (max - min + 1) + min);
+
     const card = {
-      value: 2,
-      suit: CardSuit.CLUBS,
+      value: possibleCards[randomIndex],
       isFaceUp: true,
-      worth: 2,
+      worth: +possibleCards[randomIndex],
     };
+
+    // We must identify if the total score is above 21 to define ACE as 1
+    if (card.value === "A") {
+      card.worth = 11;
+    }
+
+    if (["J", "Q", "K"].includes(card.value)) {
+      card.worth = 10;
+    }
 
     return card;
   }
