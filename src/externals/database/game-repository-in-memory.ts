@@ -9,6 +9,7 @@ export default class GameRepositoryInMemory implements IGameRepository {
     const newGame = new BlackjackGame({
       id: this.games.length + 1,
       players,
+      bets: [],
       rounds: [],
       winners: [],
       createdAt: new Date(),

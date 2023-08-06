@@ -13,9 +13,17 @@ class StartBlackjackGame implements IUseCase {
     playersAmount: number;
     gameRepository: IGameRepository;
   }): Promise<BlackjackGame> {
+    const newPlayers = this.buildNewPlayers(playersAmount);
+
+    const blackjackGame = await gameRepository.startBlackjackGame(newPlayers);
+
+    return blackjackGame;
+  }
+
+  private buildNewPlayers(playersAmount: number): Player[] {
     const newPlayers = [];
 
-    for (let index = 0; index < playersAmount; index++) {
+    for (let index = 1; index <= playersAmount; index++) {
       const newPlayer: Player = {
         id: index,
         balance: START_AMOUNT_FOR_NEW_PLAYERS,
@@ -24,9 +32,7 @@ class StartBlackjackGame implements IUseCase {
       newPlayers.push(newPlayer);
     }
 
-    const blackjackGame = await gameRepository.startBlackjackGame(newPlayers);
-
-    return blackjackGame;
+    return newPlayers;
   }
 }
 
