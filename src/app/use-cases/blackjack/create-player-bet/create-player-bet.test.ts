@@ -145,4 +145,25 @@ describe("CreatePlayerBet", () => {
       expect(error.message).toEqual("Player not found in this game!");
     }
   });
+
+  it("throws an error when the game has more rounds", async () => {
+    const playersAmount = 4;
+    const gameRepository = new GameRepositoryInMemory();
+
+    const game = await StartGame.execute({ playersAmount, gameRepository });
+    game.rounds.push({} as any);
+
+    const betAmount = 100;
+
+    try {
+      await CreatePlayerBet.execute({
+        betAmount,
+        playerId: game.players[0].id,
+        gameId: game.id as number,
+        gameRepository,
+      });
+    } catch (error: any) {
+      expect(error.message).toEqual("Bets round already passed");
+    }
+  });
 });

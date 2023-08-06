@@ -38,6 +38,10 @@ class CreatePlayerBet implements IUseCase {
       throw new Error("Player does not have enough balance!");
     }
 
+    if (persistedGame.rounds.length > 0) {
+      throw new Error("Bets round already passed");
+    }
+
     persistedPlayer.balance -= betAmount;
 
     const bet = { bet: betAmount, player: persistedPlayer };
