@@ -30,7 +30,7 @@ class GiveCard implements IUseCase {
     const doesRoundExist = persistedGame.rounds[round - 1];
 
     if (!doesRoundExist) {
-      const newRound = this.buildRound(round, persistedGame);
+      const newRound = this.buildRound({ round, game: persistedGame });
 
       persistedGame.rounds.push(newRound);
     }
@@ -38,9 +38,9 @@ class GiveCard implements IUseCase {
     const card = this.getRandomUniqueCard();
 
     if (isDealer) {
-      this.giveCardToDealer(persistedGame, round, card);
+      this.giveCardToDealer({ game: persistedGame, round, card });
     } else {
-      this.giveCardToPlayer(persistedGame, round, card, playerId);
+      this.giveCardToPlayer({ game: persistedGame, round, card, playerId });
     }
 
     await gameRepository.save(persistedGame);
@@ -48,7 +48,7 @@ class GiveCard implements IUseCase {
     return card;
   }
 
-  private buildRound(round: number, game: Game): Round {
+  private buildRound({ round, game }: { round: number; game: Game }): Round {
     if (round > 1) {
       return game.rounds[round - 2];
     }
@@ -85,7 +85,15 @@ class GiveCard implements IUseCase {
     return card;
   }
 
-  private giveCardToDealer(game: Game, round: number, card: Card): void {
+  private giveCardToDealer({
+    game,
+    round,
+    card,
+  }: {
+    game: Game;
+    round: number;
+    card: Card;
+  }): void {
     const dealer = game.rounds[round - 1].dealer;
 
     if (dealer.cards.length === 0) {
@@ -97,12 +105,17 @@ class GiveCard implements IUseCase {
     dealer.isBlackjack = dealer.score === 21;
   }
 
-  private giveCardToPlayer(
-    game: Game,
-    round: number,
-    card: Card,
-    playerId: number
-  ): void {
+  private giveCardToPlayer({
+    game,
+    round,
+    card,
+    playerId,
+  }: {
+    game: Game;
+    round: number;
+    card: Card;
+    playerId: number;
+  }): void {
     const player = game.rounds[round - 1].players.find(
       (player) => player.player.id === playerId
     );
