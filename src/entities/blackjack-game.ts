@@ -9,19 +9,19 @@ enum CardSuit {
 
 type Card = { value: number | string; suit: CardSuit; isRevelead: boolean };
 
-type Bet = {
+export type Bet = {
   player: Player;
   bet: number;
 };
 
-type Action = {
+export type Action = {
   doubled: boolean;
   stand: boolean;
   hit: boolean;
   split: boolean;
 };
 
-type Round = {
+export type Round = {
   dealer: {
     cards: Card[];
     score: number;
@@ -73,7 +73,7 @@ export default class BlackjackGame {
   bets: Bet[];
   rounds: Round[];
   winners: Player[];
-  createdAt: Date;
+  createdAt?: Date;
   finishedAt?: Date;
 
   constructor(props: BlackjackGame) {

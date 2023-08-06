@@ -1,4 +1,5 @@
 import BlackjackGame from "../../../../entities/blackjack-game";
+import Game from "../../../../entities/game";
 import Player from "../../../../entities/player";
 import IGameRepository from "../../../contracts/i-game-repository";
 import IUseCase from "../../../contracts/i-use-case";
@@ -19,7 +20,14 @@ class StartGame implements IUseCase {
 
     const newPlayers = this.buildNewPlayers(playersAmount);
 
-    const blackjackGame = await gameRepository.startBlackjackGame(newPlayers);
+    const newGame: Game = {
+      players: newPlayers,
+      bets: [],
+      rounds: [],
+      winners: [],
+    };
+
+    const blackjackGame = await gameRepository.startGame(newGame);
 
     return blackjackGame;
   }
