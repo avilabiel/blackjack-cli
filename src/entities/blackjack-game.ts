@@ -7,21 +7,20 @@ enum CardSuit {
   DIAMONDS = "♦",
 }
 
-type Card = { value: number | string; suit: CardSuit; isRevelead: boolean };
-
-export type Bet = {
-  player: Player;
-  bet: number;
+type Card = {
+  value: number | string;
+  suit: CardSuit;
+  isRevelead: boolean;
 };
 
-export type Action = {
+type Action = {
   doubled: boolean;
   stand: boolean;
   hit: boolean;
   split: boolean;
 };
 
-export type Round = {
+type Round = {
   dealer: {
     cards: Card[];
     score: number;
@@ -36,6 +35,11 @@ export type Round = {
     action: Action;
   }[];
   owner: Player;
+};
+
+export type Bet = {
+  player: Player;
+  bet: number;
 };
 
 // {

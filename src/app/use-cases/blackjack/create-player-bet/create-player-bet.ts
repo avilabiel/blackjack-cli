@@ -1,5 +1,4 @@
 import BlackjackGame, { Bet } from "../../../../entities/blackjack-game";
-import Player from "../../../../entities/player";
 import IGameRepository from "../../../contracts/i-game-repository";
 import IUseCase from "../../../contracts/i-use-case";
 
@@ -31,6 +30,11 @@ class CreatePlayerBet implements IUseCase {
       throw new Error("Player not found in this game!");
     }
 
+    if (persistedPlayer.balance < betAmount) {
+      throw new Error("Player does not have enough balance!");
+    }
+
+    persistedPlayer.balance -= betAmount;
     const bet = { bet: betAmount, player: persistedPlayer };
     persistedGame.bets.push(bet);
 

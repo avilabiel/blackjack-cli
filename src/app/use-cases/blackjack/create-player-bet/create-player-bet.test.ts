@@ -19,7 +19,6 @@ describe("CreatePlayerBet", () => {
       gameRepository,
     });
 
-    expect(persistedBet).toBeInstanceOf(Bet);
     expect(persistedBet.bet).toEqual(betAmount);
     expect(persistedBet.player).toMatchObject({
       id: player.id,
