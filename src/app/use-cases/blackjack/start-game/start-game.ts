@@ -13,6 +13,10 @@ class StartGame implements IUseCase {
     playersAmount: number;
     gameRepository: IGameRepository;
   }): Promise<BlackjackGame> {
+    if (playersAmount > 6) {
+      throw new Error("Maximum players is 6");
+    }
+
     const newPlayers = this.buildNewPlayers(playersAmount);
 
     const blackjackGame = await gameRepository.startBlackjackGame(newPlayers);

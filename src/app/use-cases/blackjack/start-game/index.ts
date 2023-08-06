@@ -1,3 +1,3 @@
-import StartBlackjackGame from "./start-game";
+import StartGame from "./start-game";
 
-export default StartBlackjackGame;
+export default StartGame;
