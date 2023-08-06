@@ -1,6 +1,6 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
+import BlackjackGame from "@/entities/blackjack-game";
 import Game from "@/entities/game";
-import Player from "@/entities/player";
 
 export default class GameRepositoryInMemory implements IGameRepository {
   private games: Game[] = [];
@@ -21,5 +21,15 @@ export default class GameRepositoryInMemory implements IGameRepository {
     const persistedGame = this.games.find((game) => game.id === gameId);
 
     return Promise.resolve(persistedGame || null);
+  }
+
+  save(game: BlackjackGame): Promise<void> {
+    const gameIndex = this.games.findIndex(
+      (persistedGame) => persistedGame.id === game.id
+    );
+
+    this.games[gameIndex] = game;
+
+    return Promise.resolve();
   }
 }

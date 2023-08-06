@@ -41,10 +41,11 @@ class CreatePlayerBet implements IUseCase {
     }
 
     persistedPlayer.balance -= betAmount;
+
     const bet = { bet: betAmount, player: persistedPlayer };
     persistedGame.bets.push(bet);
 
-    // gameRepository.save(game)
+    await gameRepository.save(persistedGame);
     return bet;
   }
 }

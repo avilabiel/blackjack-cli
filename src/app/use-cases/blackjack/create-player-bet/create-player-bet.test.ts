@@ -19,11 +19,14 @@ describe("CreatePlayerBet", () => {
       gameRepository,
     });
 
+    const updatedGame = await gameRepository.getGameById(game.id as number);
+
     expect(persistedBet.bet).toEqual(betAmount);
     expect(persistedBet.player).toMatchObject({
       id: player.id,
       balance: 500,
     });
+    expect(updatedGame?.players[0].balance).toEqual(500);
   });
 
   it("creates a bet for each player with different amounts", async () => {
@@ -57,21 +60,28 @@ describe("CreatePlayerBet", () => {
       gameRepository,
     });
 
+    const updatedGame = await gameRepository.getGameById(game.id as number);
+
     expect(persistedBetFirstPlayer.bet).toEqual(100);
     expect(persistedBetFirstPlayer.player).toMatchObject({
       id: firstPlayer.id,
       balance: 900,
     });
+    expect(updatedGame?.players[0].balance).toEqual(900);
+
     expect(persistedBetSecondPlayer.bet).toEqual(200);
     expect(persistedBetSecondPlayer.player).toMatchObject({
       id: secondPlayer.id,
       balance: 800,
     });
+    expect(updatedGame?.players[1].balance).toEqual(800);
+
     expect(persistedBetThirdPlayer.bet).toEqual(300);
     expect(persistedBetThirdPlayer.player).toMatchObject({
       id: thirdPlayer.id,
       balance: 700,
     });
+    expect(updatedGame?.players[2].balance).toEqual(700);
   });
 
   it("throws an error when player does not have enough balance", async () => {
