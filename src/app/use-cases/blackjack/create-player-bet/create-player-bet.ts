@@ -2,6 +2,12 @@ import BlackjackGame, { Bet } from "../../../../entities/blackjack-game";
 import IGameRepository from "../../../contracts/i-game-repository";
 import IUseCase from "../../../contracts/i-use-case";
 
+// TODO: put absolute path
+// TODO: improve tests for create bet
+// TODO: save the game state
+// TODO: implement other use cases
+// TODO: finish CLI
+// TODO: implement the start game on REST
 class CreatePlayerBet implements IUseCase {
   async execute({
     betAmount,

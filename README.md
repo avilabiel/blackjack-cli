@@ -58,20 +58,22 @@ Some constraints:
 These are the improvements that we will implement in the next versions of this CLI game:
 
 1. Persist games and ranks by player names instead of just in memory. Since we are following SOLID principles and using Clean Architecture, this is easy to implement, we just need to create the new repository and change the config.repositories
-2. Support different colors of cards
-3. Support Side Bets
-4. Support Perfect Pairs
-5. Support Insurance
-6. Players can login and set their nickname
-7. Players have a balance outside of the game like deposited money in the house
-8. There is a rank with the top nicknames
+2. Finish the REST implementation. With SOLID and Clean Archicture, this is easy. We just need to implement the use cases in REST paradigm
+3. Support different colors of cards
+4. Support Side Bets
+5. Support Perfect Pairs
+6. Support Insurance
+7. Players can login and set their nickname
+8. Players have a balance outside of the game like deposited money in the house
+9. There is a rank with the top nicknames
 
 ## Hours spent
 
 So far, it was spent:
 
-1. An hour understanding the requirements
+1. An hour understanding the requirements and playing a lot of Blackjack online 😄
 2. More 2 hours coding the game
+3. One hour throughout the development phase to write and update this README
 
 ## How to contribute
 
