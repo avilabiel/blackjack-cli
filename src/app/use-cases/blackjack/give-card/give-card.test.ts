@@ -3,7 +3,7 @@ import StartGame from "@/app/use-cases/blackjack/start-game";
 import GiveCard from ".";
 
 describe("GiveCard", () => {
-  describe("random cards", () => {
+  describe("cards", () => {
     it("gives random unique cards to each player in the same round", async () => {
       const playersAmount = 4;
       const gameRepository = new GameRepositoryInMemory();
@@ -108,6 +108,10 @@ describe("GiveCard", () => {
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(2);
     });
+
+    it("presents rounds as a timeline log", () => {
+      expect(1).toBe(2);
+    });
   });
 
   describe("player", () => {
@@ -162,6 +166,10 @@ describe("GiveCard", () => {
       expect(givenCard.worth).toBeDefined();
       expect(givenCard.worth).toBeGreaterThan(0);
       expect(updatedGame.rounds).toHaveLength(2);
+    });
+
+    it("presents rounds as a timeline log", () => {
+      expect(1).toBe(2);
     });
   });
 

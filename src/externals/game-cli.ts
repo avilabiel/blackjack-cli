@@ -64,10 +64,10 @@ const main = async () => {
     if (isRoundToGiveCards) {
       for (let i = 0; i <= playersAmount.response; i++) {
         const isDealer = i === 0;
-        const playerDescription = isDealer ? "the dealer" : `the player #${i}`;
+        const playerDescription = isDealer ? "Dealer" : `Player #${i}`;
 
         console.log("\n");
-        console.log(`Giving the card #${round} to ${playerDescription}...`);
+        console.log(`Giving the card #${round} to the ${playerDescription}...`);
 
         const givenCard = await GiveCard.execute({
           gameId: newGame.id,
@@ -76,8 +76,8 @@ const main = async () => {
           gameRepository,
         });
 
-        // TODO: display score
-        console.log(`Your card is: ${givenCard.value} and your score is ${0}`);
+        console.log(`${playerDescription}: Your card is ${givenCard.value}`);
+        console.log(`${playerDescription}: Your score is ${givenCard.handSum}`);
       }
     }
 
@@ -85,6 +85,9 @@ const main = async () => {
 
     console.dir({ updatedGame }, { depth: null });
 
+    if (round === 2) {
+      break;
+    }
     round++;
   }
 

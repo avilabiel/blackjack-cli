@@ -4,6 +4,7 @@ export type Card = {
   value: number | string;
   worth: number;
   isFaceUp: boolean;
+  handSum: number;
 };
 
 type Action = {

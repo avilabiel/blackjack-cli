@@ -77,7 +77,6 @@ class GiveCard implements IUseCase {
   private getRandomUniqueCard(): Card {
     const possibleCards = [
       "A",
-      "1",
       "2",
       "3",
       "4",
@@ -99,6 +98,7 @@ class GiveCard implements IUseCase {
       value: possibleCards[randomIndex],
       isFaceUp: true,
       worth: +possibleCards[randomIndex],
+      handSum: 0,
     };
 
     // We must identify if the total score is above 21 to define ACE as 1
@@ -109,6 +109,8 @@ class GiveCard implements IUseCase {
     if (["J", "Q", "K"].includes(card.value)) {
       card.worth = 10;
     }
+
+    card.handSum = card.worth;
 
     return card;
   }
@@ -128,8 +130,11 @@ class GiveCard implements IUseCase {
       card.isFaceUp = false;
     }
 
+    const score = +dealer.score + card.worth;
+    card.handSum = score;
+
     dealer.cards.push(card);
-    dealer.score = +dealer.score + card.worth;
+    dealer.score = score;
     dealer.isBlackjack = dealer.score === 21;
   }
 
@@ -152,8 +157,11 @@ class GiveCard implements IUseCase {
       throw new Error(`Player #${playerId} not found in game #${game.id}`);
     }
 
+    const score = +player.score + card.worth;
+    card.handSum = score;
+
     player.cards.push(card);
-    player.score = +player.score + card.worth;
+    player.score = score;
     player.isBlackjack = player.score === 21;
   }
 }
