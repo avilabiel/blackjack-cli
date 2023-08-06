@@ -3,6 +3,7 @@ import prompts from "prompts";
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import config from "@/config";
 import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
+import GiveCard from "@/app/use-cases/blackjack/give-card";
 
 const main = async () => {
   const gameTitle =
@@ -29,19 +30,21 @@ const main = async () => {
 
   // round wraper
   let round = 0;
+  let isGameFinished = false;
 
-  while (true) {
-    for (let i = 1; i <= playersAmount.response; i++) {
-      const isBetRound = round === 0;
+  while (!isGameFinished) {
+    const isBetRound = round === 0;
+    const isRoundToGiveCards = round > 0 && round <= 2;
 
-      if (isBetRound) {
+    if (isBetRound) {
+      for (let i = 1; i <= playersAmount.response; i++) {
         await prompts({
           type: "number",
           name: "response",
           message: `Player #${i}, please let us know your bet (any integer)`,
           validate: async (value) => {
             try {
-              const bet = await CreatePlayerBet.execute({
+              await CreatePlayerBet.execute({
                 betAmount: value,
                 playerId: i,
                 gameId: newGame.id as number,
@@ -55,16 +58,34 @@ const main = async () => {
           },
         });
       }
-
-      const updatedGame = await gameRepository.getGameById(newGame.id);
-
-      console.dir({ updatedGame }, { depth: null });
     }
+
+    if (isRoundToGiveCards) {
+      for (let i = 0; i <= playersAmount.response; i++) {
+        const isDealer = i === 0;
+        const playerDescription = isDealer ? "the dealer" : `the player #${i}`;
+
+        console.log("\n");
+        console.log(`Giving the card #${round} to ${playerDescription}...`);
+
+        const givenCard = await GiveCard.execute({
+          gameId: newGame.id,
+          round,
+          playerId: !isDealer ? i : undefined,
+          gameRepository,
+        });
+
+        console.log(`Your card is: ${givenCard.value} of ${givenCard.suit}`);
+      }
+    }
+
+    const updatedGame = await gameRepository.getGameById(newGame.id);
+
+    console.dir({ updatedGame }, { depth: null });
 
     round++;
   }
 
-  // ... starting the game
   // 1st round: give one card for each player and dealer
   // 2nd round: give another card for each player and a card face down for the dealer
   // 3rd round: each player can Double, Hit, Stand, Split

@@ -1,16 +1,17 @@
 import Player from "./player";
 
-enum CardSuit {
+export enum CardSuit {
   CLUBS = "♣",
   SPADES = "♠",
   HEARTS = "♥",
   DIAMONDS = "♦",
 }
 
-type Card = {
+export type Card = {
   value: number | string;
+  worth: number;
   suit: CardSuit;
-  isRevelead: boolean;
+  isFaceUp: boolean;
 };
 
 type Action = {
@@ -20,21 +21,20 @@ type Action = {
   split: boolean;
 };
 
-type Round = {
+export type Round = {
   dealer: {
     cards: Card[];
     score: number;
     isBlackjack: boolean;
-    action: Action;
+    action: Action | null;
   };
   players: {
     player: Player;
     cards: Card[];
     score: number;
     isBlackjack: boolean;
-    action: Action;
+    action: Action | null;
   }[];
-  owner: Player;
 };
 
 export type Bet = {

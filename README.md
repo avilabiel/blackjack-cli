@@ -26,8 +26,8 @@ Each participant attempts to beat the dealer by getting a count as close to 21 a
 ### Game flow
 
 1. Players place their bets
-2. Players and the dealer receive 1 card face up
-3. Players receive another card face up, but the dealer takes the second card face down
+2. Players receive the 1st card face up and the dealer receives the 1st card face down
+3. Players and dealer receive their 2nd cards face up
 4. If the player has a blackjack (21) and the dealer doesn't, the player wins
 5. If the player and dealer have a blackjack (21), it's a push
 6. If neither side has a blackjack, then each player plays out his hand, one at a time
@@ -66,6 +66,7 @@ These are the improvements that we will implement in the next versions of this C
 7. Players can login and set their nickname
 8. Players have a balance outside of the game like deposited money in the house
 9. There is a rank with the top nicknames
+10. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
 
 ## Hours spent
 

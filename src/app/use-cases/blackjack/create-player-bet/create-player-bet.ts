@@ -2,7 +2,7 @@ import BlackjackGame, { Bet } from "@/entities/blackjack-game";
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
 
-// TODO: implement other use cases
+// TODO: implement other use cases (gives a card, stands, hits, checks if the gamer is finished, doubles, splits)
 // TODO: finish CLI
 // TODO: implement the start game on REST
 // TODO: Apply linter
