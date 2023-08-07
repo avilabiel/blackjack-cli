@@ -109,8 +109,37 @@ describe("GiveCard", () => {
       expect(updatedGame.rounds).toHaveLength(2);
     });
 
-    it("presents rounds as a timeline log", () => {
-      expect(1).toBe(2);
+    it("presents rounds as a timeline log", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        gameRepository,
+      });
+
+      const updatedGameRound1 = await gameRepository.getGameById(game.id);
+
+      const givenCard = await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        gameRepository,
+      });
+
+      const updatedGameRound2 = await gameRepository.getGameById(game.id);
+
+      expect(givenCard.isFaceUp).toBeTruthy();
+      expect(givenCard.value).toBeDefined();
+      expect(givenCard.worth).toBeDefined();
+      expect(givenCard.worth).toBeGreaterThan(0);
+      expect(updatedGameRound1.rounds).toHaveLength(1);
+      expect(updatedGameRound1.rounds[0].dealer.cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds).toHaveLength(2);
+      expect(updatedGameRound2.rounds[0].dealer.cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds[1].dealer.cards).toHaveLength(2);
     });
   });
 
@@ -168,8 +197,40 @@ describe("GiveCard", () => {
       expect(updatedGame.rounds).toHaveLength(2);
     });
 
-    it("presents rounds as a timeline log", () => {
-      expect(1).toBe(2);
+    it("presents rounds as a timeline log", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const updatedGameRound1 = await gameRepository.getGameById(game.id);
+
+      const givenCard = await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const updatedGameRound2 = await gameRepository.getGameById(game.id);
+
+      expect(givenCard.isFaceUp).toBeTruthy();
+      expect(givenCard.value).toBeDefined();
+      expect(givenCard.worth).toBeDefined();
+      expect(givenCard.worth).toBeGreaterThan(0);
+      expect(updatedGameRound1.rounds).toHaveLength(1);
+      expect(updatedGameRound1.rounds[0].players[0].cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds).toHaveLength(2);
+      expect(updatedGameRound2.rounds[0].players[0].cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds[1].players[0].cards).toHaveLength(2);
     });
   });
 

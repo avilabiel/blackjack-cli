@@ -83,7 +83,7 @@ const main = async () => {
 
     const updatedGame = await gameRepository.getGameById(newGame.id);
 
-    console.dir({ updatedGame }, { depth: null });
+    // console.dir({ updatedGame }, { depth: null });
 
     if (round === 2) {
       break;

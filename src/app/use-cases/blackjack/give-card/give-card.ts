@@ -31,7 +31,6 @@ class GiveCard implements IUseCase {
 
     if (!doesRoundExist) {
       const newRound = this.buildRound({ round, game: persistedGame });
-
       persistedGame.rounds.push(newRound);
     }
 
@@ -50,7 +49,10 @@ class GiveCard implements IUseCase {
 
   private buildRound({ round, game }: { round: number; game: Game }): Round {
     if (round > 1) {
-      return game.rounds[round - 2];
+      const previousRound = game.rounds[round - 2];
+      const copyOfPreviousRound = JSON.parse(JSON.stringify(previousRound));
+
+      return copyOfPreviousRound;
     }
 
     const players = game.players.map((player) => {

@@ -2,7 +2,7 @@ import BlackjackGame, { Bet } from "@/entities/blackjack-game";
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
 
-// TODO: implement other use cases (gives a card, stands, hits, checks if the gamer is finished, doubles, splits)
+// TODO: implement other use cases (gives a card, stands, hits, checks if the gamer is finished, player balance, doubles, splits)
 // TODO: finish CLI
 // TODO: implement the start game on REST
 // TODO: Apply linter
@@ -18,9 +18,7 @@ class CreatePlayerBet implements IUseCase {
     gameId: number;
     gameRepository: IGameRepository;
   }): Promise<Bet> {
-    const persistedGame = (await gameRepository.getGameById(
-      gameId
-    )) as BlackjackGame;
+    const persistedGame = await gameRepository.getGameById(gameId);
 
     if (!persistedGame) {
       throw new Error("Game not found!");
