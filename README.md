@@ -66,8 +66,8 @@ These are the improvements that we will implement in the next versions of this C
 7. Support Insurance
 8. Players can login and set their nickname
 9. Players have a balance outside of the game like deposited money in the house
-10. There is a rank with the top nicknames
-11. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
+10. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
+11. Users can leave the table
 
 ## Hours spent
 

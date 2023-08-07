@@ -2,8 +2,9 @@ import prompts from "prompts";
 
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import config from "@/config";
-import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
+
+import placingBets from "./placing-bets";
+import givingCards from "./giving-cards";
 
 // TODO: improve clean code here
 const main = async () => {
@@ -29,7 +30,6 @@ const main = async () => {
     gameRepository,
   });
 
-  // round wraper
   let round = 0;
   let isGameFinished = false;
 
@@ -38,54 +38,17 @@ const main = async () => {
     const isRoundToGiveCards = round > 0 && round <= 2;
 
     if (isBetRound) {
-      for (let i = 1; i <= playersAmount.response; i++) {
-        await prompts({
-          type: "number",
-          name: "response",
-          message: `Player #${i}, please let us know your bet (any integer)`,
-          validate: async (value) => {
-            try {
-              await CreatePlayerBet.execute({
-                betAmount: value,
-                playerId: i,
-                gameId: newGame.id as number,
-                gameRepository: config.repositories.gameRepository,
-              });
-
-              return true;
-            } catch (error: any) {
-              return error.message;
-            }
-          },
-        });
-      }
+      placingBets(newGame);
     }
 
     if (isRoundToGiveCards) {
-      for (let i = 0; i <= playersAmount.response; i++) {
-        const isDealer = i === 0;
-        const playerDescription = isDealer ? "Dealer" : `Player #${i}`;
-
-        console.log("\n");
-        console.log(`Giving the card #${round} to the ${playerDescription}...`);
-
-        const givenCard = await GiveCard.execute({
-          gameId: newGame.id,
-          round,
-          playerId: !isDealer ? i : undefined,
-          gameRepository,
-        });
-
-        console.log(`${playerDescription}: Your card is ${givenCard.value}`);
-        console.log(`${playerDescription}: Your score is ${givenCard.handSum}`);
-      }
+      givingCards(newGame, round);
     }
 
-    const updatedGame = await gameRepository.getGameById(newGame.id);
-
-    // console.dir({ updatedGame }, { depth: null });
-
     if (round === 2) {
+      const updatedGame = await gameRepository.getGameById(newGame.id);
+
+      console.dir({ updatedGame }, { depth: null });
       break;
     }
     round++;
