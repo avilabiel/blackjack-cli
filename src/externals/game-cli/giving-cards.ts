@@ -29,7 +29,9 @@ const givingCards = async (game: Game, round: number) => {
 
     if (isDealer && round === 2) {
       console.log(`${playerDescription}: Your card is ${givenCard.value}`);
-      console.log(`${playerDescription}: Your total score is <HIDDEN>`);
+      console.log(
+        `${playerDescription}: Your total score is ${givenCard.value} + <HIDDEN>`
+      );
       console.log(`\n`);
 
       continue;

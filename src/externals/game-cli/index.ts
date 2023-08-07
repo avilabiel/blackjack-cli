@@ -36,26 +36,88 @@ const main = async () => {
   while (!isGameFinished) {
     const isBetRound = round === 0;
     const isRoundToGiveCards = round > 0 && round <= 2;
+    const isRoundWhereSomeoneCanWin = round > 2;
 
     if (isBetRound) {
-      placingBets(newGame);
+      await placingBets(newGame);
     }
 
     if (isRoundToGiveCards) {
-      givingCards(newGame, round);
+      await givingCards(newGame, round);
     }
 
-    if (round === 2) {
-      const updatedGame = await gameRepository.getGameById(newGame.id);
+    if (isRoundWhereSomeoneCanWin) {
+      console.log(
+        `\n===================== ROUND #${round} =====================`
+      );
 
-      console.dir({ updatedGame }, { depth: null });
-      break;
+      for (let i = 1; i < newGame.players.length; i++) {
+        const updatedGame = await gameRepository.getGameById(newGame.id);
+
+        console.log("ROUND INDEX", round - 2);
+        console.dir(updatedGame, { depth: null });
+        const dealerState = updatedGame.rounds[round - 2].dealer;
+        const playerState = updatedGame.rounds[round - 2].players[i - 1];
+        const cardValues = playerState.cards.map((card) => card.value);
+
+        console.log(
+          `PLAYER #${i} | Cards: ${cardValues.join(",")} | Score: ${
+            playerState.score
+          }`
+        );
+
+        if (playerState.score > 21) {
+          console.log(`PLAYER #${i} you LOSE!`);
+          continue;
+        }
+
+        const actions = await prompts({
+          type: "select",
+          name: "response",
+          message: "Pick your action",
+          choices: [
+            { title: "Hit", value: "hit" },
+            { title: "Stand", value: "stand" },
+            // { title: "Double", value: "#0000ff" },
+            // { title: "Split", value: "#0000ff" },
+          ],
+        });
+
+        if (actions.response === "stand") {
+          if (dealerState.score < playerState.score) {
+            updatedGame.players[i - 1].balance += updatedGame.bets[i - 1].bet;
+            const finalBalance = updatedGame.players[i - 1].balance;
+
+            console.log(
+              `PLAYER #${i} you WON! Your final balance: ${finalBalance}`
+            );
+          }
+
+          // TODO: generate a history on game.rounds[]
+          continue;
+        }
+
+        if (actions.response === "hit") {
+          // TODO: generate a history on game.rounds[]
+          continue;
+        }
+
+        console.log(`Player #${i} picks ${actions.response}`);
+      }
+
+      // Dealer does nothing
+
+      // Dealer rules => if < 16, HIT
     }
+
+    if (round === 5) {
+      isGameFinished = true;
+    }
+
     round++;
   }
 
-  // 1st round: give one card for each player and dealer
-  // 2nd round: give another card for each player and a card face down for the dealer
+  // Suggestions for new use cases: check-game-result, create-hit-action, create-stand-action
   // 3rd round: each player can Double, Hit, Stand, Split
   // 4th..END: each player has the focus until they decide to stop
 

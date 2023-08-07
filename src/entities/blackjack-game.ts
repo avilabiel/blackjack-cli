@@ -35,35 +35,6 @@ export type Bet = {
   bet: number;
 };
 
-// {
-//   bets: [
-//     {
-//       player: { id: 1, balance: 800 },
-//       bet: 200,
-//     },
-//     // ...
-//   ],
-//   rounds: [
-//     {
-//       dealer: { cards: [{ value: 2, suit: CardSuit.CLUBS, value: 'J', suit: CardSuit.DIAMONDS }], score: 12, isBlackjack: false },
-//       players: [
-//         {
-//           player: { id: 1, balance: 800 },
-//           cards: [ {value: "A", suit: CardSuit.CLUBS } ],
-//           score: 11,
-//           isBlackjack: false,
-//           action: {
-//             doubled: false,
-//             stand: false,
-//             hit: false,
-//             split: false,
-//           }
-//         }
-//       ],
-//     }
-//   ]
-// }
-
 export default class BlackjackGame {
   id?: number;
   players: Player[];
