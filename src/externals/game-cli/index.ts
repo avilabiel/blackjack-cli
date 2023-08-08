@@ -5,6 +5,7 @@ import config from "@/config";
 
 import placingBets from "./placing-bets";
 import givingCards from "./giving-cards";
+import GiveCard from "@/app/use-cases/blackjack/give-card";
 
 // TODO: improve clean code here
 const main = async () => {
@@ -51,7 +52,9 @@ const main = async () => {
         `\n===================== ROUND #${round} =====================`
       );
 
-      for (let i = 1; i < newGame.players.length; i++) {
+      // TODO: Implement actions
+      for (let i = 1; i <= newGame.players.length; i++) {
+        // TODO: probably we need to stay on that player until they decide to stand
         const updatedGame = await gameRepository.getGameById(newGame.id);
 
         console.log("ROUND INDEX", round - 2);
@@ -98,7 +101,17 @@ const main = async () => {
         }
 
         if (actions.response === "hit") {
-          // TODO: generate a history on game.rounds[]
+          const givenCard = await GiveCard.execute({
+            gameId: newGame.id,
+            round,
+            playerId: i,
+            gameRepository: config.repositories.gameRepository,
+          });
+
+          console.log(`Player #${i}: Your card is ${givenCard.value}`);
+          console.log(`Player #${i}: Your total score is ${givenCard.handSum}`);
+
+          // TODO: check game?
           continue;
         }
 

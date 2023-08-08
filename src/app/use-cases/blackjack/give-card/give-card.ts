@@ -1,6 +1,11 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
-import { Card, Round } from "@/entities/blackjack-game";
+import {
+  Card,
+  DealerInRound,
+  PlayerInRound,
+  Round,
+} from "@/entities/blackjack-game";
 import Game from "@/entities/game";
 
 class GiveCard implements IUseCase {
@@ -34,16 +39,30 @@ class GiveCard implements IUseCase {
       persistedGame.rounds.push(newRound);
     }
 
-    const card = this.getRandomUniqueCard();
+    const dealer = persistedGame.rounds[round - 1].dealer;
+
+    const player = persistedGame.rounds[round - 1].players.find(
+      (player) => player.player.id === playerId
+    );
 
     if (isDealer) {
-      this.giveCardToDealer({ game: persistedGame, round, card });
-    } else {
-      this.giveCardToPlayer({ game: persistedGame, round, card, playerId });
+      const card = this.getRandomUniqueCard(dealer.score);
+      this.giveCardToDealer({ dealer, card });
+
+      await gameRepository.save(persistedGame);
+      return card;
     }
 
-    await gameRepository.save(persistedGame);
+    if (!player) {
+      throw new Error(
+        `Player #${playerId} not found in game #${persistedGame.id}`
+      );
+    }
 
+    const card = this.getRandomUniqueCard(player.score);
+    this.giveCardToPlayer({ player, card });
+
+    await gameRepository.save(persistedGame);
     return card;
   }
 
@@ -76,7 +95,7 @@ class GiveCard implements IUseCase {
     };
   }
 
-  private getRandomUniqueCard(): Card {
+  private getRandomUniqueCard(handSum: number): Card {
     const possibleCards = [
       "A",
       "2",
@@ -103,9 +122,12 @@ class GiveCard implements IUseCase {
       handSum: 0,
     };
 
-    // We must identify if the total score is above 21 to define ACE as 1
-    if (card.value === "A") {
+    if (card.value === "A" && handSum <= 10) {
       card.worth = 11;
+    }
+
+    if (card.value === "A" && handSum > 10) {
+      card.worth = 1;
     }
 
     if (["J", "Q", "K"].includes(card.value)) {
@@ -118,16 +140,12 @@ class GiveCard implements IUseCase {
   }
 
   private giveCardToDealer({
-    game,
-    round,
+    dealer,
     card,
   }: {
-    game: Game;
-    round: number;
+    dealer: DealerInRound;
     card: Card;
   }): void {
-    const dealer = game.rounds[round - 1].dealer;
-
     if (dealer.cards.length === 0) {
       card.isFaceUp = false;
     }
@@ -141,24 +159,12 @@ class GiveCard implements IUseCase {
   }
 
   private giveCardToPlayer({
-    game,
-    round,
+    player,
     card,
-    playerId,
   }: {
-    game: Game;
-    round: number;
+    player: PlayerInRound;
     card: Card;
-    playerId: number;
   }): void {
-    const player = game.rounds[round - 1].players.find(
-      (player) => player.player.id === playerId
-    );
-
-    if (!player) {
-      throw new Error(`Player #${playerId} not found in game #${game.id}`);
-    }
-
     const score = +player.score + card.worth;
     card.handSum = score;
 

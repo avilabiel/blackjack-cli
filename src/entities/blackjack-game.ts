@@ -14,20 +14,24 @@ type Action = {
   split: boolean;
 };
 
+export type DealerInRound = {
+  cards: Card[];
+  score: number;
+  isBlackjack: boolean;
+  action: Action | null;
+};
+
+export type PlayerInRound = {
+  player: Player;
+  cards: Card[];
+  score: number;
+  isBlackjack: boolean;
+  action: Action | null;
+};
+
 export type Round = {
-  dealer: {
-    cards: Card[];
-    score: number;
-    isBlackjack: boolean;
-    action: Action | null;
-  };
-  players: {
-    player: Player;
-    cards: Card[];
-    score: number;
-    isBlackjack: boolean;
-    action: Action | null;
-  }[];
+  dealer: DealerInRound;
+  players: PlayerInRound[];
 };
 
 export type Bet = {

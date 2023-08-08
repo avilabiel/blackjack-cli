@@ -55,6 +55,61 @@ describe("GiveCard", () => {
       expect(givenCardToThirdPlayer.worth).toBeGreaterThan(0);
       expect(givenCardToFourthPlayer.worth).toBeGreaterThan(0);
     });
+
+    it("considers ACE as 11 when score is less or equal to 21", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+
+      const aceIndex = 0;
+      jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
+
+      const givenCard = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      jest.clearAllMocks();
+
+      expect(givenCard.value).toEqual("A");
+      expect(givenCard.worth).toEqual(11);
+    });
+
+    it("considers ACE as 1 when score is greater to 21", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+
+      const aceIndex = 0;
+      jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
+
+      const firstGivenAceCard = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const secondGivenAceCard = await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      jest.clearAllMocks();
+
+      expect(firstGivenAceCard.value).toEqual("A");
+      expect(firstGivenAceCard.worth).toEqual(11);
+      expect(secondGivenAceCard.value).toEqual("A");
+      expect(secondGivenAceCard.worth).toEqual(1);
+    });
   });
 
   describe("dealer", () => {
