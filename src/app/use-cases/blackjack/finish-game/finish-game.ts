@@ -16,10 +16,14 @@ class FinishGame implements IUseCase {
       throw new Error("Game not found!");
     }
 
+    if (persistedGame.rounds.length < 2) {
+      throw new Error("Not possible to finish a game without giving all cards");
+    }
+
     const lastRoundIndex = persistedGame.rounds.length - 1;
     const lastRound = persistedGame.rounds[lastRoundIndex];
 
-    lastRound.players.forEach((playerInRound, index) => {
+    lastRound.players.forEach((playerInRound) => {
       const playerBet = persistedGame.bets.find(
         (bet) => bet.player.id === playerInRound.player.id
       );
@@ -28,11 +32,23 @@ class FinishGame implements IUseCase {
         (persistedPlayer) => persistedPlayer.id === playerInRound.player.id
       );
 
-      if (playerInRound.score === lastRound.dealer.score) {
+      const didPlayerPush = playerInRound.score === lastRound.dealer.score;
+      const didPlayerLose = playerInRound.score < lastRound.dealer.score;
+      const didPlayerWin = playerInRound.score > lastRound.dealer.score; // TODO: whenever Dealer hits, we must check if it is bigger than 21
+
+      if (didPlayerPush) {
+        playerInGame.balance += playerBet.amount;
+
+        persistedGame.reports.push({
+          player: playerInGame,
+          isWinner: false,
+          prize: 0,
+        });
+
         return;
       }
 
-      if (playerInRound.score < lastRound.dealer.score) {
+      if (didPlayerLose) {
         persistedGame.reports.push({
           player: playerInGame,
           isWinner: false,
@@ -42,16 +58,18 @@ class FinishGame implements IUseCase {
         return;
       }
 
-      const prizeMultiplier = playerInRound.isBlackjack ? 1.5 : 1;
-      const winnerPrize = playerBet.amount * prizeMultiplier;
-      playerInGame.balance =
-        playerInGame.balance + playerBet.amount + winnerPrize;
+      if (didPlayerWin) {
+        const prizeMultiplier = playerInRound.isBlackjack ? 1.5 : 1;
+        const winnerPrize = playerBet.amount * prizeMultiplier;
+        playerInGame.balance =
+          playerInGame.balance + playerBet.amount + winnerPrize;
 
-      persistedGame.reports.push({
-        player: playerInGame,
-        isWinner: true,
-        prize: winnerPrize,
-      });
+        persistedGame.reports.push({
+          player: playerInGame,
+          isWinner: true,
+          prize: winnerPrize,
+        });
+      }
     });
 
     await gameRepository.save(persistedGame);

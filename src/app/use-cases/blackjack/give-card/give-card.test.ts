@@ -79,7 +79,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(aceIndex);
 
       const givenCard = await GiveCard.execute({
         gameId: game.id,
@@ -87,8 +87,6 @@ describe("GiveCard", () => {
         playerId: firstPlayer.id,
         gameRepository,
       });
-
-      jest.clearAllMocks();
 
       expect(givenCard.value).toEqual("A");
       expect(givenCard.worth).toEqual(11);
@@ -109,7 +107,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(aceIndex);
 
       const firstGivenAceCard = await GiveCard.execute({
         gameId: game.id,
@@ -124,8 +122,6 @@ describe("GiveCard", () => {
         playerId: firstPlayer.id,
         gameRepository,
       });
-
-      jest.clearAllMocks();
 
       expect(firstGivenAceCard.value).toEqual("A");
       expect(firstGivenAceCard.worth).toEqual(11);
@@ -408,6 +404,7 @@ describe("GiveCard", () => {
         expect(error.message).toEqual("Game not found!");
       }
     });
+
     it("throws an error when player is not found in the game", async () => {
       try {
         const playersAmount = 1;
