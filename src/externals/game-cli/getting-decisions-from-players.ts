@@ -1,5 +1,6 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
 import CreatePlayerDoubleAction from "@/app/use-cases/blackjack/create-player-double-action";
+import CreatePlayerSplitAction from "@/app/use-cases/blackjack/create-player-split-action";
 import GiveCard from "@/app/use-cases/blackjack/give-card";
 import config from "@/config";
 import { Card } from "@/entities/blackjack-game";
@@ -17,7 +18,9 @@ const gettingDecisionsFromPlayers = async ({
     `\n===================== TIME TO MAKE YOUR DECISIONS! =====================`
   );
 
-  for (let i = 1; i <= game.players.length; i++) {
+  let gamePlayersLength = game.players.length;
+
+  for (let i = 1; i <= gamePlayersLength; i++) {
     let doesPlayerCanAct = true;
 
     while (doesPlayerCanAct) {
@@ -42,7 +45,7 @@ const gettingDecisionsFromPlayers = async ({
           { title: "Hit", value: "Hit" },
           { title: "Stand", value: "Stand" },
           { title: "Double", value: "Double" },
-          // { title: "Split", value: "#0000ff" },
+          { title: "Split", value: "Split" },
         ],
       });
 
@@ -90,6 +93,21 @@ const gettingDecisionsFromPlayers = async ({
 
         doesPlayerCanAct = false;
         break;
+      }
+
+      if (actions.response === "Split") {
+        await CreatePlayerSplitAction.execute({
+          gameId: game.id,
+          playerId: i,
+          gameRepository,
+        });
+
+        gamePlayersLength++;
+
+        console.log(`Now we are splitting your cards...`);
+        console.log(
+          `Player #${i} now has a new player as a second hand. New player: PLAYER #${gamePlayersLength}`
+        );
       }
     }
   }

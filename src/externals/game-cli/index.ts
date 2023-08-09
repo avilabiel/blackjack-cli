@@ -59,9 +59,6 @@ const main = async () => {
 
     isGameFinished = true;
     console.log("\n\n\nThank you for playing!");
-
-    // TODO: Split
-    // TODO: Start game using REST + maybe fix the HIDDEN on REST response (think)
   }
 };
 

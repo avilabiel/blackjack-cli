@@ -26,13 +26,21 @@ const finishingGame = async ({
 
   for (let i = 0; i < finishedGame.players.length; i++) {
     const playerCards = finishedGame.reports[i].cards.map((card) => card.value);
+    const originalPlayerId = finishedGame.reports[i].player.originalPlayerId;
+    const playerId = finishedGame.reports[i].player.id;
+    const splitHandDescription =
+      originalPlayerId !== playerId
+        ? `| Hand from Player: #${originalPlayerId}`
+        : "";
 
     console.log(
       `Player #${i + 1} | Cards: ${playerCards.join(",")} | Score: ${
         finishedGame.reports[i].finalScore
       } | Winner: ${finishedGame.reports[i].isWinner} | Prize: ${
         finishedGame.reports[i].prize
-      } | Final Balance: ${finishedGame.players[i].balance}`
+      } | Final Balance: ${
+        finishedGame.players[i].balance
+      } ${splitHandDescription}`
     );
   }
 };
