@@ -1,7 +1,7 @@
 import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
-import StartGame from "../start-game";
-import CreatePlayerBet from "../create-player-bet";
-import GiveCard from "../give-card";
+import StartGame from "@/app/use-cases/blackjack/start-game";
+import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
+import GiveCard from "@/app/use-cases/blackjack/give-card";
 import CreatePlayerDoubleAction from ".";
 
 describe("CreatePlayerDoubleAction", () => {
