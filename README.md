@@ -71,7 +71,7 @@ These are the improvements that we will implement in the next versions of this C
 9. Use real storage to persist the games (e.g. MySQL or MongoDB)
 10. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
 11. Finish the REST implementation
-12. Players can login and set their nickname
+12. Players can log in and set their nickname
 13. Apply Github CICD to ensure our tests are passing on every push (to `main` or PRs)
 14. Apply automated tests for the game CLI
 
