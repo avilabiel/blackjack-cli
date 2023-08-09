@@ -7,6 +7,7 @@ import placingBets from "./placing-bets";
 import givingCards from "./giving-cards";
 import gettingDecisionsFromPlayers from "./getting-decisions-from-players";
 import FinishGame from "@/app/use-cases/blackjack/finish-game";
+import finishingGame from "./finishing-game";
 
 // TODO: improve clean code here
 const main = async () => {
@@ -54,34 +55,7 @@ const main = async () => {
       await gettingDecisionsFromPlayers({ game: updatedGame, gameRepository });
     }
 
-    const finishedGame = await FinishGame.execute({
-      gameId: newGame.id,
-      gameRepository,
-    });
-
-    const lastRound = finishedGame.rounds[finishedGame.rounds.length - 1];
-    const dealerCards = lastRound.dealer.cards.map((card) => card.value);
-
-    console.log("\n================== END GAME ==================\n");
-    console.log(
-      `Dealer | Cards: ${dealerCards.join(",")} | Score: ${
-        lastRound.dealer.score
-      }`
-    );
-
-    for (let i = 0; i < finishedGame.players.length; i++) {
-      const playerCards = finishedGame.reports[i].cards.map(
-        (card) => card.value
-      );
-
-      console.log(
-        `Player #${i} | Cards: ${playerCards.join(",")} | Score: ${
-          finishedGame.reports[i].finalScore
-        } | Winner: ${finishedGame.reports[i].isWinner} | Prize: ${
-          finishedGame.reports[i].prize
-        } | Final Balance: ${finishedGame.players[i].balance}`
-      );
-    }
+    await finishingGame({ game: updatedGame, gameRepository });
 
     isGameFinished = true;
     console.log("\n\n\nThank you for playing!");
