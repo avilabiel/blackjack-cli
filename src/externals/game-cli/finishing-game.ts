@@ -28,7 +28,7 @@ const finishingGame = async ({
     const playerCards = finishedGame.reports[i].cards.map((card) => card.value);
 
     console.log(
-      `Player #${i} | Cards: ${playerCards.join(",")} | Score: ${
+      `Player #${i + 1} | Cards: ${playerCards.join(",")} | Score: ${
         finishedGame.reports[i].finalScore
       } | Winner: ${finishedGame.reports[i].isWinner} | Prize: ${
         finishedGame.reports[i].prize

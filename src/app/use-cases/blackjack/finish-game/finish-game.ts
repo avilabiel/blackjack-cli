@@ -33,8 +33,10 @@ class FinishGame implements IUseCase {
       );
 
       const didPlayerPush = playerInRound.score === lastRound.dealer.score;
-      const didPlayerLose = playerInRound.score < lastRound.dealer.score;
-      const didPlayerWin = playerInRound.score > lastRound.dealer.score; // TODO: whenever Dealer hits, we must check if it is bigger than 21
+      const didPlayerLose =
+        playerInRound.score < lastRound.dealer.score ||
+        playerInRound.score > 21;
+      const didPlayerWin = playerInRound.score > lastRound.dealer.score; // NB: whenever Dealer hits, we must check if it is bigger than 21
 
       if (didPlayerPush) {
         playerInGame.balance += playerBet.amount;

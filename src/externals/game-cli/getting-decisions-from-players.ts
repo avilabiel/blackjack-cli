@@ -1,6 +1,8 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
+import CreatePlayerDoubleAction from "@/app/use-cases/blackjack/create-player-double-action";
 import GiveCard from "@/app/use-cases/blackjack/give-card";
 import config from "@/config";
+import { Card } from "@/entities/blackjack-game";
 import Game from "@/entities/game";
 import prompts from "prompts";
 
@@ -39,7 +41,7 @@ const gettingDecisionsFromPlayers = async ({
         choices: [
           { title: "Hit", value: "Hit" },
           { title: "Stand", value: "Stand" },
-          // { title: "Double", value: "#0000ff" },
+          { title: "Double", value: "Double" },
           // { title: "Split", value: "#0000ff" },
         ],
       });
@@ -59,8 +61,7 @@ const gettingDecisionsFromPlayers = async ({
           gameRepository: config.repositories.gameRepository,
         });
 
-        console.log(`Player #${i}: Your card is ${givenCard.value}`);
-        console.log(`Player #${i}: Your total score is ${givenCard.handSum}`);
+        displayGivenCard(givenCard, i);
 
         if (givenCard.handSum > 21) {
           const isThereANextPlayer = i + 1 < game.players.length;
@@ -76,8 +77,27 @@ const gettingDecisionsFromPlayers = async ({
           break;
         }
       }
+
+      if (actions.response === "Double") {
+        const givenCardFromDouble = await CreatePlayerDoubleAction.execute({
+          gameId: game.id,
+          round,
+          playerId: i,
+          gameRepository: config.repositories.gameRepository,
+        });
+
+        displayGivenCard(givenCardFromDouble, i);
+
+        doesPlayerCanAct = false;
+        break;
+      }
     }
   }
+};
+
+const displayGivenCard = (card: Card, playerIndex: number): void => {
+  console.log(`Player #${playerIndex}: Your card is ${card.value}`);
+  console.log(`Player #${playerIndex}: Your total score is ${card.handSum}`);
 };
 
 export default gettingDecisionsFromPlayers;
