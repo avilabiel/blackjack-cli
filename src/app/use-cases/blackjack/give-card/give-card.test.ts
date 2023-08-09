@@ -79,7 +79,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
 
       const givenCard = await GiveCard.execute({
         gameId: game.id,
@@ -109,7 +109,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
 
       const firstGivenAceCard = await GiveCard.execute({
         gameId: game.id,
@@ -350,6 +350,10 @@ describe("GiveCard", () => {
       expect(updatedGameRound2.rounds).toHaveLength(2);
       expect(updatedGameRound2.rounds[0].players[0].cards).toHaveLength(1);
       expect(updatedGameRound2.rounds[1].players[0].cards).toHaveLength(2);
+    });
+
+    it("gives a new card to players with more than 2 cards on hands (i.e. HIT)", () => {
+      expect(2).toBe(1);
     });
   });
 

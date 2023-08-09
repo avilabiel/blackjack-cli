@@ -32,8 +32,6 @@ class FinishGame implements IUseCase {
         return;
       }
 
-      const prizeMultiplier = playerInRound.isBlackjack ? 1.5 : 1;
-
       if (playerInRound.score < lastRound.dealer.score) {
         persistedGame.reports.push({
           player: playerInGame,
@@ -44,10 +42,15 @@ class FinishGame implements IUseCase {
         return;
       }
 
+      const prizeMultiplier = playerInRound.isBlackjack ? 1.5 : 1;
+      const winnerPrize = playerBet.amount * prizeMultiplier;
+      playerInGame.balance =
+        playerInGame.balance + playerBet.amount + winnerPrize;
+
       persistedGame.reports.push({
         player: playerInGame,
         isWinner: true,
-        prize: playerBet.amount * prizeMultiplier,
+        prize: winnerPrize,
       });
     });
 
