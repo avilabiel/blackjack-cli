@@ -7,18 +7,10 @@ export type Card = {
   handSum: number;
 };
 
-type Action = {
-  doubled: boolean;
-  stand: boolean;
-  hit: boolean;
-  split: boolean;
-};
-
 export type DealerInRound = {
   cards: Card[];
   score: number;
   isBlackjack: boolean;
-  action: Action | null;
 };
 
 export type PlayerInRound = {
@@ -26,7 +18,6 @@ export type PlayerInRound = {
   cards: Card[];
   score: number;
   isBlackjack: boolean;
-  action: Action | null;
 };
 
 export type Round = {
