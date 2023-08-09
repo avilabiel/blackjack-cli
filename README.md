@@ -61,7 +61,7 @@ These are the improvements that we will implement in the next versions of this C
 1. Apply a Linter using ESLint
 2. Leave the table whenever the player wants
 3. Player can keep playing until the balance is greater than $0
-4. Improve the Dealer bot to take some actions like HIT
+4. Improve the Dealer bot to take some actions like HIT if its score is less or equal than 12
 5. Support different card suits and colors
 6. Give random and unique cards. I.e. a card picked previously will not appear again
 7. Support more advanced rules like Side Bets, Perfect Pairs, and Insurance
