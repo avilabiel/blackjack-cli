@@ -114,8 +114,6 @@ class CreatePlayerSplitAction implements IUseCase {
     persistedGame.rounds.push(newRound);
 
     await gameRepository.save(persistedGame);
-    // CLI: Display that a new player was created
-    // FINISH GAME: Consider the balance as the same on finishing game
   }
 }
 
