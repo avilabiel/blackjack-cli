@@ -2,6 +2,16 @@
 
 This repository aims to bring a playable Blackjack on CLI using Node.JS, Typescript, and a Clean Architecture following SOLID principles.
 
+## How to run
+
+To run this game on your CLI, please run the following commands:
+
+```shell
+yarn
+yarn build
+yarn start-cli
+```
+
 ## Rules
 
 The rules are:
@@ -36,16 +46,6 @@ Some constraints:
 - Players that hit previously cannot double their bets
 - Players that doubled their bets cannot hit again, i.e. they will receive just one more card
 
-## How to run
-
-To run this game on your CLI, please run the following commands:
-
-```shell
-yarn
-yarn build
-yarn start-cli
-```
-
 ## Features
 
 This Blackjack CLI is not on its final version. The supported features are:
@@ -59,27 +59,29 @@ This Blackjack CLI is not on its final version. The supported features are:
 These are the improvements that we will implement in the next versions of this CLI game:
 
 1. Apply a Linter using ESLint
-2. Leave the table whenever the player wants
-3. Player can keep playing until the balance is greater than $0
-4. Improve the Dealer bot to take some actions like HIT if its score is less or equal than 12
-5. Support different card suits and colors
-6. Give random and unique cards. I.e. a card picked previously will not appear again
-7. Support more advanced rules like Side Bets, Perfect Pairs, and Insurance
-8. Use real storage to persist the games (e.g. MySQL or MongoDB)
-9. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
-10. Finish the REST implementation
-11. Players can login and set their nickname
-12. Apply Github CICD to ensure our tests are passing on every push (to `main` or PRs)
+2. Improve the experience of Splitting games. Probably, the same player should have different games instead of creating a new player
+3. Leave the table whenever the player wants (LEAVE action)
+4. Player can keep playing until the balance is greater than $0
+5. Improve the Dealer bot to take some actions like HIT if its score is less or equal than 14
+6. Support different card suits and colors
+7. Give random and unique cards. I.e. a card picked previously will not appear again
+8. Support more advanced rules like Side Bets, Perfect Pairs, and Insurance
+9. Use real storage to persist the games (e.g. MySQL or MongoDB)
+10. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
+11. Finish the REST implementation
+12. Players can login and set their nickname
+13. Apply Github CICD to ensure our tests are passing on every push (to `main` or PRs)
+14. Apply automated tests for the game CLI
 
 ## How to contribute
 
 ### PRs
 
-Pick a feature or bug, pull from `main`, and start coding! Please create a PR and we will review it happily 😄. PRs without automated tests won't be approved.
+Pick a feature or issue, pull from `main`, and start coding! Please create a PR and we will review it happily 😄. PRs without automated tests won't be approved.
 
 ### SOLID
 
-This project follows the SOLID principle. This principle stands for:
+This project follows the SOLID principles. These principles stand for:
 
 1. _*Single Responsibility Principle*_: Classes and functions have only one single responsibility
 2. _*Open Closed Principle*_: Classes are open for extensions, but closed for modifications
@@ -97,13 +99,16 @@ Clean Architecture is basically a practical way of following the SOLID principle
 2. _*Use Cases*_: store the use cases of the system without being coupled to external things. Basically, all the business levels are stored here. Examples: `Start Game`, `Give a Card`, `Hit`, `Stand`, etc.
 3. _*Externals*_: store everything that does not impact the business rules like Databases, Libraries, CLI, HTTP frameworks, etc.
 
+#### Benefits from Clean Architecture
+
 There are many benefits of using Clean Architecture and SOLID principles, some of them are:
 
 1. Easy to test
 2. Easy to maintain (e.g.: we can easily move from in-memory repositories to a MySQL or MongoDB repository)
 3. Easy to serve on other platforms
+4. Business rules not coupled to external items like libraries, storages, HTTP, Websocket, etc.
 
-Using Clean Architecture, we can easily serve the same business rules in CLI, REST API, and GraphQL. Everything is in the same project!
+For example, by using Clean Architecture, we can easily serve the same business rules in CLI, REST API, and Websocket. We just need to use the Use Cases!
 
 We are serving this app mainly in the CLI. However, please check the `externals` folder and see one tiny example of starting this game using REST.
 

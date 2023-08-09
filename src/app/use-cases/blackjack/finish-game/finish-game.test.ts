@@ -1110,6 +1110,110 @@ describe("FinishGame", () => {
     });
   });
 
+  describe("splitting", () => {
+    it("calculates as expected splitted games when both hands from the same player win", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+      const secondPlayer = game.players[1];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: secondPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      // Gives 2 to Dealer as 1st card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        gameRepository,
+      });
+
+      // Gives K to Player #1 as 1st card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      // Gives K to Player #2 as 1st card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: secondPlayer.id,
+        gameRepository,
+      });
+
+      // Gives 2 to Dealer as 2nd card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        gameRepository,
+      });
+
+      // Gives K to Player #1 as 2nd card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      // Gives K to Player #2 as 2nd card
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        playerId: secondPlayer.id,
+        gameRepository,
+      });
+
+      const finishedGame = await FinishGame.execute({
+        gameId: game.id,
+        gameRepository,
+      });
+
+      // TODO: split game use case
+
+      expect(finishedGame.reports).toHaveLength(2);
+      expect(finishedGame.reports[0].isWinner).toBeTruthy();
+      expect(finishedGame.reports[0].player.id).toEqual(firstPlayer.id);
+      expect(game.players[0].balance).toEqual(1000);
+      expect(finishedGame.players[0].balance).toEqual(1100);
+      expect(finishedGame.reports[0].prize).toEqual(100);
+      expect(finishedGame.reports[1].isWinner).toBeTruthy();
+      expect(finishedGame.reports[1].player.id).toEqual(secondPlayer.id);
+      expect(game.players[1].balance).toEqual(1000);
+      expect(finishedGame.players[1].balance).toEqual(1100);
+      expect(finishedGame.reports[1].prize).toEqual(100);
+    });
+
+    it("calculates as expected splitted games when only 1st hand from the same player win", async () => {
+      expect(2).toBe(1);
+    });
+
+    it("calculates as expected splitted games when only 2nd hand from the same player win", async () => {
+      expect(2).toBe(1);
+    });
+  });
+
   describe("validations", () => {
     it("throws an error when game is not found", async () => {
       try {
