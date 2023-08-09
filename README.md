@@ -59,7 +59,7 @@ This Blackjack CLI is not on its final version. The supported features are:
 These are the improvements that we will implement in the next versions of this CLI game:
 
 1. Apply a Linter using ESLint
-2. Improve the experience of Splitting games. Probably, the same player should have different games instead of creating a new player
+2. Improve the experience of Splitting games.
 3. Leave the table whenever the player wants (LEAVE action)
 4. Player can keep playing until the balance is greater than $0
 5. Improve the Dealer bot to take some actions like HIT if its score is less or equal than 14

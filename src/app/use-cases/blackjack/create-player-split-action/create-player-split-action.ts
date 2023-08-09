@@ -91,7 +91,6 @@ class CreatePlayerSplitAction implements IUseCase {
       }
     );
 
-    // remove cards
     const newRound: Round = {
       ...copyOfLastRound,
       players: [
