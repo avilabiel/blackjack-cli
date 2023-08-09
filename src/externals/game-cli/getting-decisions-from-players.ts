@@ -11,20 +11,23 @@ const gettingDecisionsFromPlayers = async ({
   game: Game;
   gameRepository: IGameRepository;
 }): Promise<void> => {
-  const round = game.rounds.length + 1;
+  console.log(
+    `\n===================== TIME TO MAKE YOUR DECISIONS! =====================`
+  );
 
   for (let i = 1; i <= game.players.length; i++) {
     let doesPlayerCanAct = true;
 
     while (doesPlayerCanAct) {
       const updatedGame = await gameRepository.getGameById(game.id);
-      const previousRoundIndex = round - 2;
+      const round = updatedGame.rounds.length + 1;
+      const previousRoundIndex = updatedGame.rounds.length - 1;
 
       const playerState = updatedGame.rounds[previousRoundIndex].players[i - 1];
       const cardValues = playerState.cards.map((card) => card.value);
 
       console.log(
-        `PLAYER #${i} | Cards: ${cardValues.join(",")} | Score: ${
+        `\nPLAYER #${i} | Cards: ${cardValues.join(",")} | Score: ${
           playerState.score
         }`
       );
@@ -32,7 +35,7 @@ const gettingDecisionsFromPlayers = async ({
       const actions = await prompts({
         type: "select",
         name: "response",
-        message: "Pick your action",
+        message: `PLAYER #${i}: Pick your action`,
         choices: [
           { title: "Hit", value: "Hit" },
           { title: "Stand", value: "Stand" },
@@ -70,11 +73,8 @@ const gettingDecisionsFromPlayers = async ({
           );
 
           doesPlayerCanAct = false;
-          //   game.currentRound++; WHY?
           break;
         }
-
-        // game.currentRound++; WHY?
       }
     }
   }

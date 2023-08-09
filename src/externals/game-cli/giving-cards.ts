@@ -6,7 +6,7 @@ const givingCards = async (game: Game) => {
   const round = game.rounds.length + 1;
 
   console.log(
-    `\n===================== GIVING CARD #${round} =====================`
+    `\n===================== GIVING CARD #${round} =====================\n`
   );
   for (let i = 0; i <= game.players.length; i++) {
     const isDealer = i === 0;
@@ -38,8 +38,6 @@ const givingCards = async (game: Game) => {
 
       continue;
     }
-
-    // TODO: Show previous cards on the game
 
     const isBlackjack = givenCard.handSum === 21;
     const blackjackCelebration = isBlackjack ? "You have a BLACKJACK!" : "";

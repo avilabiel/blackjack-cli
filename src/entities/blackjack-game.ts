@@ -36,6 +36,7 @@ export default class BlackjackGame {
   bets: Bet[];
   rounds: Round[];
   winners: Player[];
+  allPlayersReady?: boolean;
   createdAt?: Date;
   finishedAt?: Date;
 
@@ -45,6 +46,7 @@ export default class BlackjackGame {
     this.bets = props.bets;
     this.rounds = props.rounds;
     this.winners = props.winners;
+    this.allPlayersReady = props.allPlayersReady || false;
     this.createdAt = props.createdAt;
     this.finishedAt = props.finishedAt;
   }

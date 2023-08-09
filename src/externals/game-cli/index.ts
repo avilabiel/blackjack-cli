@@ -40,12 +40,6 @@ const main = async () => {
     const isBetRound = updatedGame.bets.length === 0;
     const isRoundToGiveCards = !isBetRound && updatedGame.rounds.length < 2;
 
-    console.log("NEW LOOP", {
-      isBetRound,
-      isRoundToGiveCards,
-      round: updatedGame.rounds.length + 1,
-    });
-
     // console.dir(updatedGame, { depth: null });
     if (isBetRound) {
       await placingBets(updatedGame);
@@ -57,20 +51,18 @@ const main = async () => {
       continue;
     }
 
-    console.log(`Round previously ${updatedGame.rounds.length + 1}`);
-    await gettingDecisionsFromPlayers({ game: updatedGame, gameRepository });
-    console.log(`Round after ${updatedGame.rounds.length + 1}`);
+    if (!updatedGame.allPlayersReady) {
+      await gettingDecisionsFromPlayers({ game: updatedGame, gameRepository });
+    }
+
+    console.log("END GAME");
+    break;
 
     // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
     // TODO: Update player balances and display them at the end of the game
     // TODO: If the Dealer Score is below 16, Dealer can HIT
     // TODO: Double
     // TODO: Split
-
-    if (updatedGame.rounds.length === 5) {
-      isGameFinished = true;
-      break;
-    }
   }
 };
 
