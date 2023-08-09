@@ -37,30 +37,36 @@ const main = async () => {
   while (!isGameFinished) {
     const isBetRound = round === 0;
     const isRoundToGiveCards = round > 0 && round <= 2;
-    const isRoundWhereSomeoneCanWin = round > 2;
 
     if (isBetRound) {
       await placingBets(newGame);
+
+      round++;
+      continue;
     }
 
     if (isRoundToGiveCards) {
       await givingCards(newGame, round);
+
+      round++;
+      continue;
     }
 
-    if (isRoundWhereSomeoneCanWin) {
-      console.log(
-        `\n===================== ROUND #${round} =====================`
-      );
+    console.log(
+      `\n===================== ROUND #${round} =====================`
+    );
 
-      // TODO: Implement actions
-      for (let i = 1; i <= newGame.players.length; i++) {
-        // TODO: probably we need to stay on that player until they decide to stand
+    for (let i = 1; i <= newGame.players.length; i++) {
+      let doesPlayerCanAct = true;
+
+      while (doesPlayerCanAct) {
         const updatedGame = await gameRepository.getGameById(newGame.id);
+        const previousRoundIndex = round - 2;
 
-        console.log("ROUND INDEX", round - 2);
-        console.dir(updatedGame, { depth: null });
-        const dealerState = updatedGame.rounds[round - 2].dealer;
-        const playerState = updatedGame.rounds[round - 2].players[i - 1];
+        console.dir({ updatedGame, round }, { depth: null });
+
+        const playerState =
+          updatedGame.rounds[previousRoundIndex].players[i - 1];
         const cardValues = playerState.cards.map((card) => card.value);
 
         console.log(
@@ -69,38 +75,26 @@ const main = async () => {
           }`
         );
 
-        if (playerState.score > 21) {
-          console.log(`PLAYER #${i} you LOSE!`);
-          continue;
-        }
-
         const actions = await prompts({
           type: "select",
           name: "response",
           message: "Pick your action",
           choices: [
-            { title: "Hit", value: "hit" },
-            { title: "Stand", value: "stand" },
+            { title: "Hit", value: "Hit" },
+            { title: "Stand", value: "Stand" },
             // { title: "Double", value: "#0000ff" },
             // { title: "Split", value: "#0000ff" },
           ],
         });
 
-        if (actions.response === "stand") {
-          if (dealerState.score < playerState.score) {
-            updatedGame.players[i - 1].balance += updatedGame.bets[i - 1].bet;
-            const finalBalance = updatedGame.players[i - 1].balance;
+        console.log(`Player #${i} picks ${actions.response}`);
 
-            console.log(
-              `PLAYER #${i} you WON! Your final balance: ${finalBalance}`
-            );
-          }
-
-          // TODO: generate a history on game.rounds[]
-          continue;
+        if (actions.response === "Stand") {
+          doesPlayerCanAct = false;
+          break;
         }
 
-        if (actions.response === "hit") {
+        if (actions.response === "Hit") {
           const givenCard = await GiveCard.execute({
             gameId: newGame.id,
             round,
@@ -111,30 +105,37 @@ const main = async () => {
           console.log(`Player #${i}: Your card is ${givenCard.value}`);
           console.log(`Player #${i}: Your total score is ${givenCard.handSum}`);
 
-          // TODO: check game?
-          continue;
-        }
+          if (givenCard.handSum > 21) {
+            const isThereMorePlayers = i + 1 < newGame.players.length;
+            const movingToTheNextPlayer = isThereMorePlayers
+              ? `Moving to the Player #${i + 1}`
+              : "";
 
-        console.log(`Player #${i} picks ${actions.response}`);
+            console.log(
+              `Player #${i}: Your score is above 21, you LOSE! ${movingToTheNextPlayer}`
+            );
+
+            doesPlayerCanAct = false;
+            round++;
+            break;
+          }
+
+          round++;
+        }
       }
 
-      // Dealer does nothing
-
-      // Dealer rules => if < 16, HIT
+      // TODO: Make Game Rounds.actions easier (maybe remove it)
+      // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
+      // TODO: Update player balances and display them at the end of the game
+      // TODO: If the Dealer Score is below 16, Dealer can HIT
+      // TODO: Double
+      // TODO: Split
     }
 
     if (round === 5) {
       isGameFinished = true;
     }
-
-    round++;
   }
-
-  // Suggestions for new use cases: check-game-result, create-hit-action, create-stand-action
-  // 3rd round: each player can Double, Hit, Stand, Split
-  // 4th..END: each player has the focus until they decide to stop
-
-  //
 };
 
 main();

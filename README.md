@@ -59,15 +59,16 @@ This Blackjack CLI is not on its final version. The supported features are:
 These are the improvements that we will implement in the next versions of this CLI game:
 
 1. Leave the table whenever the player wants
-2. Player can keep playing until the balance is greater than $0
-3. Improve the Dealer bot to take some actions like HIT
-4. Support different card suits and colors
-5. Give random and unique cards. I.e. a card picked previously will not appear again
-6. Support more advanced rules like Side Bets, Perfect Pairs, and Insurance
-7. Use real storage to persist the games (e.g. MySQL or MongoDB)
-8. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
-9. Finish the REST implementation
-10. Players can login and set their nickname
+2. Player balance is updated after winning or losing
+3. Player can keep playing until the balance is greater than $0
+4. Improve the Dealer bot to take some actions like HIT
+5. Support different card suits and colors
+6. Give random and unique cards. I.e. a card picked previously will not appear again
+7. Support more advanced rules like Side Bets, Perfect Pairs, and Insurance
+8. Use real storage to persist the games (e.g. MySQL or MongoDB)
+9. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
+10. Finish the REST implementation
+11. Players can login and set their nickname
 
 ## How to contribute
 
