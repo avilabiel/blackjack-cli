@@ -1,5 +1,7 @@
 # Blackjack CLI
 
+<img width="1436" alt="image" src="https://github.com/avilabiel/blackjack-cli/assets/10943948/1f3ea64a-163f-46aa-bbfd-5b3f058f13f4">
+
 This repository aims to bring a playable Blackjack on CLI using Node.JS, Typescript, and a Clean Architecture following SOLID principles.
 
 ## How to run
@@ -126,3 +128,10 @@ yarn test
 # watch mode
 yarn test --watch
 ```
+
+So far, we have this amount of tests:
+<img width="808" alt="image" src="https://github.com/avilabiel/blackjack-cli/assets/10943948/7bf96f63-b672-4b5c-b696-4d5b33641771">
+
+
+
+
