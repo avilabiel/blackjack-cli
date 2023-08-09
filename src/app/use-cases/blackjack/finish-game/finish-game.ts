@@ -43,6 +43,8 @@ class FinishGame implements IUseCase {
           player: playerInGame,
           isWinner: false,
           prize: 0,
+          finalScore: playerInRound.score,
+          cards: playerInRound.cards,
         });
 
         return;
@@ -53,6 +55,8 @@ class FinishGame implements IUseCase {
           player: playerInGame,
           isWinner: false,
           prize: -playerBet.amount,
+          finalScore: playerInRound.score,
+          cards: playerInRound.cards,
         });
 
         return;
@@ -68,6 +72,8 @@ class FinishGame implements IUseCase {
           player: playerInGame,
           isWinner: true,
           prize: winnerPrize,
+          finalScore: playerInRound.score,
+          cards: playerInRound.cards,
         });
       }
     });

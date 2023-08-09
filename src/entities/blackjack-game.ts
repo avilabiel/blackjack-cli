@@ -34,6 +34,8 @@ export type Report = {
   player: Player;
   isWinner: boolean;
   prize: number;
+  finalScore: number;
+  cards: Card[];
 };
 
 export default class BlackjackGame {

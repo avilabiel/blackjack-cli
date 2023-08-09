@@ -6,6 +6,7 @@ import config from "@/config";
 import placingBets from "./placing-bets";
 import givingCards from "./giving-cards";
 import gettingDecisionsFromPlayers from "./getting-decisions-from-players";
+import FinishGame from "@/app/use-cases/blackjack/finish-game";
 
 // TODO: improve clean code here
 const main = async () => {
@@ -39,7 +40,6 @@ const main = async () => {
     const isBetRound = updatedGame.bets.length === 0;
     const isRoundToGiveCards = !isBetRound && updatedGame.rounds.length < 2;
 
-    // console.dir(updatedGame, { depth: null });
     if (isBetRound) {
       await placingBets(updatedGame);
       continue;
@@ -54,10 +54,38 @@ const main = async () => {
       await gettingDecisionsFromPlayers({ game: updatedGame, gameRepository });
     }
 
-    console.log("END GAME");
-    break;
+    const finishedGame = await FinishGame.execute({
+      gameId: newGame.id,
+      gameRepository,
+    });
 
-    // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
+    const lastRound = finishedGame.rounds[finishedGame.rounds.length - 1];
+    const dealerCards = lastRound.dealer.cards.map((card) => card.value);
+
+    console.log("\n================== END GAME ==================\n");
+    console.log(
+      `Dealer | Cards: ${dealerCards.join(",")} | Score: ${
+        lastRound.dealer.score
+      }`
+    );
+
+    for (let i = 0; i < finishedGame.players.length; i++) {
+      const playerCards = finishedGame.reports[i].cards.map(
+        (card) => card.value
+      );
+
+      console.log(
+        `Player #${i} | Cards: ${playerCards.join(",")} | Score: ${
+          finishedGame.reports[i].finalScore
+        } | Winner: ${finishedGame.reports[i].isWinner} | Prize: ${
+          finishedGame.reports[i].prize
+        } | Final Balance: ${finishedGame.players[i].balance}`
+      );
+    }
+
+    isGameFinished = true;
+    console.log("\n\n\nThank you for playing!");
+
     // TODO: If the Dealer Score is below 16, Dealer can HIT
     // TODO: Double
     // TODO: Split

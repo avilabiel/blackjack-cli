@@ -153,7 +153,7 @@ class GiveCard implements IUseCase {
 
     dealer.cards.push(card);
     dealer.score = score;
-    dealer.isBlackjack = dealer.score === 21;
+    dealer.isBlackjack = dealer.score === 21 && dealer.cards.length === 2;
   }
 
   private giveCardToPlayer({
@@ -168,7 +168,7 @@ class GiveCard implements IUseCase {
 
     player.cards.push(card);
     player.score = score;
-    player.isBlackjack = player.score === 21;
+    player.isBlackjack = player.score === 21 && player.cards.length === 2;
   }
 }
 
