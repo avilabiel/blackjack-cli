@@ -58,13 +58,10 @@ const main = async () => {
     break;
 
     // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
-    // TODO: Update player balances and display them at the end of the game
     // TODO: If the Dealer Score is below 16, Dealer can HIT
     // TODO: Double
     // TODO: Split
-    // TODO: Make simpler this relationship between Player on other types, maybe just playerId
     // TODO: Start game using REST + maybe fix the HIDDEN on REST response (think)
-    // TODO: Linter
   }
 };
 

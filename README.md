@@ -58,8 +58,8 @@ This Blackjack CLI is not on its final version. The supported features are:
 
 These are the improvements that we will implement in the next versions of this CLI game:
 
-1. Leave the table whenever the player wants
-2. Player balance is updated after winning or losing
+1. Apply a Linter using ESLint
+2. Leave the table whenever the player wants
 3. Player can keep playing until the balance is greater than $0
 4. Improve the Dealer bot to take some actions like HIT
 5. Support different card suits and colors
@@ -69,6 +69,7 @@ These are the improvements that we will implement in the next versions of this C
 9. Improve the CLI view with [Ink](https://www.npmjs.com/package/ink)
 10. Finish the REST implementation
 11. Players can login and set their nickname
+12. Apply Github CICD to ensure our tests are passing on every push (to `main` or PRs)
 
 ## How to contribute
 
