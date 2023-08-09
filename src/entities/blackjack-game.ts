@@ -27,7 +27,13 @@ export type Round = {
 
 export type Bet = {
   player: Player;
-  bet: number;
+  amount: number;
+};
+
+export type Report = {
+  player: Player;
+  isWinner: boolean;
+  prize: number;
 };
 
 export default class BlackjackGame {
@@ -35,7 +41,7 @@ export default class BlackjackGame {
   players: Player[];
   bets: Bet[];
   rounds: Round[];
-  winners: Player[];
+  reports: Report[];
   allPlayersReady?: boolean;
   createdAt?: Date;
   finishedAt?: Date;
@@ -45,7 +51,7 @@ export default class BlackjackGame {
     this.players = props.players;
     this.bets = props.bets;
     this.rounds = props.rounds;
-    this.winners = props.winners;
+    this.reports = props.reports;
     this.allPlayersReady = props.allPlayersReady || false;
     this.createdAt = props.createdAt;
     this.finishedAt = props.finishedAt;

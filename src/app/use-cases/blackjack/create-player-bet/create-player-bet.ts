@@ -42,7 +42,7 @@ class CreatePlayerBet implements IUseCase {
 
     persistedPlayer.balance -= betAmount;
 
-    const bet = { bet: betAmount, player: persistedPlayer };
+    const bet = { amount: betAmount, player: persistedPlayer };
     persistedGame.bets.push(bet);
 
     await gameRepository.save(persistedGame);

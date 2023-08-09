@@ -24,7 +24,7 @@ class StartGame implements IUseCase {
       players: newPlayers,
       bets: [],
       rounds: [],
-      winners: [],
+      reports: [],
     };
 
     const blackjackGame = await gameRepository.startGame(newGame);

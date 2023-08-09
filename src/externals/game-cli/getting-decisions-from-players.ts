@@ -63,8 +63,8 @@ const gettingDecisionsFromPlayers = async ({
         console.log(`Player #${i}: Your total score is ${givenCard.handSum}`);
 
         if (givenCard.handSum > 21) {
-          const isThereMorePlayers = i + 1 < game.players.length;
-          const movingToTheNextPlayer = isThereMorePlayers
+          const isThereANextPlayer = i + 1 < game.players.length;
+          const movingToTheNextPlayer = isThereANextPlayer
             ? `Moving to the Player #${i + 1}`
             : "";
 

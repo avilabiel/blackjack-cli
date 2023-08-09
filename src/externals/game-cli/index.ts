@@ -5,7 +5,6 @@ import config from "@/config";
 
 import placingBets from "./placing-bets";
 import givingCards from "./giving-cards";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
 import gettingDecisionsFromPlayers from "./getting-decisions-from-players";
 
 // TODO: improve clean code here
@@ -63,6 +62,9 @@ const main = async () => {
     // TODO: If the Dealer Score is below 16, Dealer can HIT
     // TODO: Double
     // TODO: Split
+    // TODO: Make simpler this relationship between Player on other types, maybe just playerId
+    // TODO: Start game using REST + maybe fix the HIDDEN on REST response (think)
+    // TODO: Linter
   }
 };
 

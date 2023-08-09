@@ -21,7 +21,7 @@ describe("CreatePlayerBet", () => {
 
     const updatedGame = await gameRepository.getGameById(game.id as number);
 
-    expect(persistedBet.bet).toEqual(betAmount);
+    expect(persistedBet.amount).toEqual(betAmount);
     expect(persistedBet.player).toMatchObject({
       id: player.id,
       balance: 500,
@@ -62,21 +62,21 @@ describe("CreatePlayerBet", () => {
 
     const updatedGame = await gameRepository.getGameById(game.id as number);
 
-    expect(persistedBetFirstPlayer.bet).toEqual(100);
+    expect(persistedBetFirstPlayer.amount).toEqual(100);
     expect(persistedBetFirstPlayer.player).toMatchObject({
       id: firstPlayer.id,
       balance: 900,
     });
     expect(updatedGame?.players[0].balance).toEqual(900);
 
-    expect(persistedBetSecondPlayer.bet).toEqual(200);
+    expect(persistedBetSecondPlayer.amount).toEqual(200);
     expect(persistedBetSecondPlayer.player).toMatchObject({
       id: secondPlayer.id,
       balance: 800,
     });
     expect(updatedGame?.players[1].balance).toEqual(800);
 
-    expect(persistedBetThirdPlayer.bet).toEqual(300);
+    expect(persistedBetThirdPlayer.amount).toEqual(300);
     expect(persistedBetThirdPlayer.player).toMatchObject({
       id: thirdPlayer.id,
       balance: 700,
