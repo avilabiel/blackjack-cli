@@ -21,15 +21,14 @@ class GiveCard implements IUseCase {
     gameRepository: IGameRepository;
   }): Promise<Card> {
     const isDealer = !playerId;
-
-    if (round === 0) {
-      throw new Error("Not possible to give cards before bets");
-    }
-
     const persistedGame = await gameRepository.getGameById(gameId);
 
     if (!persistedGame) {
       throw new Error("Game not found!");
+    }
+
+    if (persistedGame.bets.length === 0) {
+      throw new Error("Not possible to give cards before bets");
     }
 
     const doesRoundExist = persistedGame.rounds[round - 1];
@@ -66,6 +65,7 @@ class GiveCard implements IUseCase {
     return card;
   }
 
+  // TODO: refactor this part (create more methods)
   private buildRound({ round, game }: { round: number; game: Game }): Round {
     if (round > 1) {
       const previousRound = game.rounds[round - 2];
@@ -80,7 +80,6 @@ class GiveCard implements IUseCase {
         cards: [],
         score: 0,
         isBlackjack: false,
-        action: null,
       };
     });
 
@@ -89,7 +88,6 @@ class GiveCard implements IUseCase {
         cards: [],
         score: 0,
         isBlackjack: false,
-        action: null,
       },
       players,
     };

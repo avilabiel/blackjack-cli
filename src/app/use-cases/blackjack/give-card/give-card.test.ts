@@ -1,5 +1,6 @@
 import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
 import StartGame from "@/app/use-cases/blackjack/start-game";
+import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
 import GiveCard from ".";
 
 describe("GiveCard", () => {
@@ -13,6 +14,13 @@ describe("GiveCard", () => {
       const secondPlayer = game.players[1];
       const thirdPlayer = game.players[2];
       const fourthPlayer = game.players[3];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       const givenCardToDealer = await GiveCard.execute({
         gameId: game.id,
@@ -63,6 +71,13 @@ describe("GiveCard", () => {
       const game = await StartGame.execute({ playersAmount, gameRepository });
       const firstPlayer = game.players[0];
 
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
       const aceIndex = 0;
       jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
 
@@ -85,6 +100,13 @@ describe("GiveCard", () => {
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
       const firstPlayer = game.players[0];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       const aceIndex = 0;
       jest.spyOn(global.Math, "random").mockReturnValue(aceIndex);
@@ -119,6 +141,13 @@ describe("GiveCard", () => {
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
 
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: game.players[0].id,
+        gameId: game.id,
+        gameRepository,
+      });
+
       const givenCard = await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -140,6 +169,13 @@ describe("GiveCard", () => {
       const gameRepository = new GameRepositoryInMemory();
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: game.players[0].id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       await GiveCard.execute({
         gameId: game.id,
@@ -169,6 +205,13 @@ describe("GiveCard", () => {
       const gameRepository = new GameRepositoryInMemory();
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: game.players[0].id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       await GiveCard.execute({
         gameId: game.id,
@@ -206,6 +249,13 @@ describe("GiveCard", () => {
       const game = await StartGame.execute({ playersAmount, gameRepository });
       const firstPlayer = game.players[0];
 
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
       const givenCard = await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -228,6 +278,13 @@ describe("GiveCard", () => {
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
       const firstPlayer = game.players[0];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       await GiveCard.execute({
         gameId: game.id,
@@ -258,6 +315,13 @@ describe("GiveCard", () => {
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
       const firstPlayer = game.players[0];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
 
       await GiveCard.execute({
         gameId: game.id,
@@ -298,6 +362,8 @@ describe("GiveCard", () => {
         const game = await StartGame.execute({ playersAmount, gameRepository });
         const firstPlayer = game.players[0];
 
+        // NB: Not calling CreatePlayerBet before giving cards
+
         await GiveCard.execute({
           gameId: game.id,
           round: 0,
@@ -319,6 +385,13 @@ describe("GiveCard", () => {
         const game = await StartGame.execute({ playersAmount, gameRepository });
         const firstPlayer = game.players[0];
 
+        await CreatePlayerBet.execute({
+          betAmount: 100,
+          playerId: firstPlayer.id,
+          gameId: game.id,
+          gameRepository,
+        });
+
         await GiveCard.execute({
           gameId: 1234,
           round: 1,
@@ -337,6 +410,13 @@ describe("GiveCard", () => {
         const gameRepository = new GameRepositoryInMemory();
 
         const game = await StartGame.execute({ playersAmount, gameRepository });
+
+        await CreatePlayerBet.execute({
+          betAmount: 100,
+          playerId: game.players[0].id,
+          gameId: game.id,
+          gameRepository,
+        });
 
         await GiveCard.execute({
           gameId: game.id,

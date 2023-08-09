@@ -6,6 +6,7 @@ import config from "@/config";
 import placingBets from "./placing-bets";
 import givingCards from "./giving-cards";
 import GiveCard from "@/app/use-cases/blackjack/give-card";
+import gettingDecisionsFromPlayers from "./getting-decisions-from-players";
 
 // TODO: improve clean code here
 const main = async () => {
@@ -31,109 +32,44 @@ const main = async () => {
     gameRepository,
   });
 
-  let round = 0;
   let isGameFinished = false;
 
   while (!isGameFinished) {
-    const isBetRound = round === 0;
-    const isRoundToGiveCards = round > 0 && round <= 2;
+    const updatedGame = await gameRepository.getGameById(newGame.id);
 
+    const isBetRound = updatedGame.bets.length === 0;
+    const isRoundToGiveCards = !isBetRound && updatedGame.rounds.length < 2;
+
+    console.log("NEW LOOP", {
+      isBetRound,
+      isRoundToGiveCards,
+      round: updatedGame.rounds.length + 1,
+    });
+
+    // console.dir(updatedGame, { depth: null });
     if (isBetRound) {
-      await placingBets(newGame);
-
-      round++;
+      await placingBets(updatedGame);
       continue;
     }
 
     if (isRoundToGiveCards) {
-      await givingCards(newGame, round);
-
-      round++;
+      await givingCards(updatedGame);
       continue;
     }
 
-    console.log(
-      `\n===================== ROUND #${round} =====================`
-    );
+    console.log(`Round previously ${updatedGame.rounds.length + 1}`);
+    await gettingDecisionsFromPlayers({ game: updatedGame, gameRepository });
+    console.log(`Round after ${updatedGame.rounds.length + 1}`);
 
-    for (let i = 1; i <= newGame.players.length; i++) {
-      let doesPlayerCanAct = true;
+    // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
+    // TODO: Update player balances and display them at the end of the game
+    // TODO: If the Dealer Score is below 16, Dealer can HIT
+    // TODO: Double
+    // TODO: Split
 
-      while (doesPlayerCanAct) {
-        const updatedGame = await gameRepository.getGameById(newGame.id);
-        const previousRoundIndex = round - 2;
-
-        console.dir({ updatedGame, round }, { depth: null });
-
-        const playerState =
-          updatedGame.rounds[previousRoundIndex].players[i - 1];
-        const cardValues = playerState.cards.map((card) => card.value);
-
-        console.log(
-          `PLAYER #${i} | Cards: ${cardValues.join(",")} | Score: ${
-            playerState.score
-          }`
-        );
-
-        const actions = await prompts({
-          type: "select",
-          name: "response",
-          message: "Pick your action",
-          choices: [
-            { title: "Hit", value: "Hit" },
-            { title: "Stand", value: "Stand" },
-            // { title: "Double", value: "#0000ff" },
-            // { title: "Split", value: "#0000ff" },
-          ],
-        });
-
-        console.log(`Player #${i} picks ${actions.response}`);
-
-        if (actions.response === "Stand") {
-          doesPlayerCanAct = false;
-          break;
-        }
-
-        if (actions.response === "Hit") {
-          const givenCard = await GiveCard.execute({
-            gameId: newGame.id,
-            round,
-            playerId: i,
-            gameRepository: config.repositories.gameRepository,
-          });
-
-          console.log(`Player #${i}: Your card is ${givenCard.value}`);
-          console.log(`Player #${i}: Your total score is ${givenCard.handSum}`);
-
-          if (givenCard.handSum > 21) {
-            const isThereMorePlayers = i + 1 < newGame.players.length;
-            const movingToTheNextPlayer = isThereMorePlayers
-              ? `Moving to the Player #${i + 1}`
-              : "";
-
-            console.log(
-              `Player #${i}: Your score is above 21, you LOSE! ${movingToTheNextPlayer}`
-            );
-
-            doesPlayerCanAct = false;
-            round++;
-            break;
-          }
-
-          round++;
-        }
-      }
-
-      // TODO: Make Game Rounds.actions easier (maybe remove it)
-      // TODO: When all players decided to STAND: Reveal Dealer Score, Define Game Winners
-      // TODO: Update player balances and display them at the end of the game
-      // TODO: If the Dealer Score is below 16, Dealer can HIT
-      // TODO: Double
-      // TODO: Split
-    }
-
-    if (round === 5) {
+    if (updatedGame.rounds.length === 5) {
       isGameFinished = true;
+      break;
     }
   }
 };

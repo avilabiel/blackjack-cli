@@ -2,7 +2,9 @@ import GiveCard from "@/app/use-cases/blackjack/give-card";
 import config from "@/config";
 import Game from "@/entities/game";
 
-const givingCards = async (game: Game, round: number) => {
+const givingCards = async (game: Game) => {
+  const round = game.rounds.length + 1;
+
   console.log(
     `\n===================== GIVING CARD #${round} =====================`
   );
@@ -37,9 +39,14 @@ const givingCards = async (game: Game, round: number) => {
       continue;
     }
 
+    // TODO: Show previous cards on the game
+
+    const isBlackjack = givenCard.handSum === 21;
+    const blackjackCelebration = isBlackjack ? "You have a BLACKJACK!" : "";
+
     console.log(`${playerDescription}: Your card is ${givenCard.value}`);
     console.log(
-      `${playerDescription}: Your total score is ${givenCard.handSum}`
+      `${playerDescription}: Your total score is ${givenCard.handSum}. ${blackjackCelebration}`
     );
     console.log(`\n`);
   }
