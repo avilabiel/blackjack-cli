@@ -8,12 +8,14 @@
   "scripts": {
     "build": "ttsc -P tsconfig.json",
     "start-cli": "node ./dist/src/externals/game-cli",
+    "start-http": "node ./dist/src/externals/rest/server",
     "test": "jest --coverage=false",
     "test:coverage": "jest"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
     "@types/chalk": "^2.2.0",
+    "@types/express": "^4.17.17",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.8",
     "@types/prompts": "^2.4.4",
@@ -24,6 +26,7 @@
     "typescript-transform-paths": "^3.4.6"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "prompts": "^2.4.2"
   }
 }
