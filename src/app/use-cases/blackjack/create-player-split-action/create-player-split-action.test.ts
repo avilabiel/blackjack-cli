@@ -83,7 +83,7 @@ describe("CreatePlayerSplitAction", () => {
       secondCardToPlayer.value
     );
     expect(updatedGame.players[0].id).toEqual(1);
-    expect(updatedGame.players[0].originalPlayerId).toBeUndefined();
+    expect(updatedGame.players[0].originalPlayerId).toEqual(1);
     expect(updatedGame.players[1].id).toEqual(2);
     expect(updatedGame.players[1].originalPlayerId).toBeDefined();
     expect(updatedGame.players[1].originalPlayerId).toEqual(1);

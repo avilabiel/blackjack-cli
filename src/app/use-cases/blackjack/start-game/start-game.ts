@@ -39,6 +39,7 @@ class StartGame implements IUseCase {
       const newPlayer: Player = {
         id: index,
         balance: START_AMOUNT_FOR_NEW_PLAYERS,
+        originalPlayerId: index,
       };
 
       newPlayers.push(newPlayer);

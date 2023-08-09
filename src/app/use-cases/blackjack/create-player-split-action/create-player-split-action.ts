@@ -64,8 +64,6 @@ class CreatePlayerSplitAction implements IUseCase {
       throw new Error("You don't have enough balance to split");
     }
 
-    console.log({ player, playerBet, lastBalance });
-
     const newPlayer: Player = {
       id: persistedGame.players.length + 1,
       balance: 0,
@@ -114,10 +112,6 @@ class CreatePlayerSplitAction implements IUseCase {
     persistedGame.players[playerId - 1].balance = newBalance;
     persistedGame.players.push(newPlayer);
     persistedGame.rounds.push(newRound);
-
-    console.log("UPDATED VALUE");
-    console.dir({ persistedGame }, { depth: null });
-    console.dir({ newBet, newPlayer, newRound }, { depth: null });
 
     await gameRepository.save(persistedGame);
     // CLI: Display that a new player was created

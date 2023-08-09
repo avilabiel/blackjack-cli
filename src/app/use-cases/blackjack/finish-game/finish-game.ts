@@ -20,15 +20,23 @@ class FinishGame implements IUseCase {
       throw new Error("Not possible to finish a game without giving all cards");
     }
 
-    const lastRoundIndex = persistedGame.rounds.length - 1;
-    const lastRound = persistedGame.rounds[lastRoundIndex];
+    const updatedGameWithReportPerPlayer =
+      this.updateGameFinalReport(persistedGame);
+
+    await gameRepository.save(updatedGameWithReportPerPlayer);
+    return persistedGame;
+  }
+
+  private updateGameFinalReport(game: Game): Game {
+    const lastRoundIndex = game.rounds.length - 1;
+    const lastRound = game.rounds[lastRoundIndex];
 
     lastRound.players.forEach((playerInRound) => {
-      const playerBet = persistedGame.bets.find(
+      const playerBet = game.bets.find(
         (bet) => bet.player.id === playerInRound.player.id
       );
 
-      const playerInGame = persistedGame.players.find(
+      const playerInGame = game.players.find(
         (persistedPlayer) => persistedPlayer.id === playerInRound.player.id
       );
 
@@ -41,7 +49,7 @@ class FinishGame implements IUseCase {
       if (didPlayerPush) {
         playerInGame.balance += playerBet.amount;
 
-        persistedGame.reports.push({
+        game.reports.push({
           player: playerInGame,
           isWinner: false,
           prize: 0,
@@ -53,7 +61,7 @@ class FinishGame implements IUseCase {
       }
 
       if (didPlayerLose) {
-        persistedGame.reports.push({
+        game.reports.push({
           player: playerInGame,
           isWinner: false,
           prize: -playerBet.amount,
@@ -70,7 +78,7 @@ class FinishGame implements IUseCase {
         playerInGame.balance =
           playerInGame.balance + playerBet.amount + winnerPrize;
 
-        persistedGame.reports.push({
+        game.reports.push({
           player: playerInGame,
           isWinner: true,
           prize: winnerPrize,
@@ -80,8 +88,7 @@ class FinishGame implements IUseCase {
       }
     });
 
-    await gameRepository.save(persistedGame);
-    return persistedGame;
+    return game;
   }
 }
 

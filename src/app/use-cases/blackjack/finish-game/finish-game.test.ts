@@ -2,6 +2,7 @@ import GameRepositoryInMemory from "@/externals/database/game-repository-in-memo
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
 import GiveCard from "@/app/use-cases/blackjack/give-card";
+import CreatePlayerSplitAction from "@/app/use-cases/blackjack/create-player-split-action";
 import FinishGame from ".";
 
 describe("FinishGame", () => {
@@ -1112,7 +1113,7 @@ describe("FinishGame", () => {
 
   describe("splitting", () => {
     it("calculates as expected splitted games when both hands from the same player win", async () => {
-      const playersAmount = 1;
+      const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
       const game = await StartGame.execute({ playersAmount, gameRepository });
@@ -1185,24 +1186,60 @@ describe("FinishGame", () => {
         gameRepository,
       });
 
+      // Splits hands and create Player #3 pointing to Player #1
+      await CreatePlayerSplitAction.execute({
+        gameId: game.id,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      // Gives K to Player #1 as 2nd card after split
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 3,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      // Gives K to Player #3 (pointing to Player #1) as 2nd card after split
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 4,
+        playerId: 3,
+        gameRepository,
+      });
+
       const finishedGame = await FinishGame.execute({
         gameId: game.id,
         gameRepository,
       });
 
-      // TODO: split game use case
-
-      expect(finishedGame.reports).toHaveLength(2);
+      expect(finishedGame.reports).toHaveLength(3);
       expect(finishedGame.reports[0].isWinner).toBeTruthy();
       expect(finishedGame.reports[0].player.id).toEqual(firstPlayer.id);
+      expect(finishedGame.reports[0].player.originalPlayerId).toEqual(
+        firstPlayer.id
+      );
       expect(game.players[0].balance).toEqual(1000);
-      expect(finishedGame.players[0].balance).toEqual(1100);
+      expect(finishedGame.players[0].balance).toEqual(1000);
       expect(finishedGame.reports[0].prize).toEqual(100);
       expect(finishedGame.reports[1].isWinner).toBeTruthy();
       expect(finishedGame.reports[1].player.id).toEqual(secondPlayer.id);
+      expect(finishedGame.reports[1].player.originalPlayerId).toEqual(
+        secondPlayer.id
+      );
       expect(game.players[1].balance).toEqual(1000);
       expect(finishedGame.players[1].balance).toEqual(1100);
       expect(finishedGame.reports[1].prize).toEqual(100);
+
+      expect(finishedGame.reports[2].isWinner).toBeTruthy();
+      expect(finishedGame.reports[2].player.id).toEqual(3);
+      expect(finishedGame.reports[2].player.originalPlayerId).toEqual(1);
+      expect(game.players[2]).toBeUndefined();
+      expect(finishedGame.players[2].balance).toEqual(200);
+      expect(finishedGame.reports[2].prize).toEqual(100);
     });
 
     it("calculates as expected splitted games when only 1st hand from the same player win", async () => {
