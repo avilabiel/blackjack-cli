@@ -107,7 +107,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
 
       const firstGivenAceCard = await GiveCard.execute({
         gameId: game.id,
@@ -348,13 +348,62 @@ describe("GiveCard", () => {
       expect(updatedGameRound2.rounds[1].players[0].cards).toHaveLength(2);
     });
 
-    it("gives a new card to players with more than 2 cards on hands (i.e. HIT)", () => {
-      expect(2).toBe(1);
+    it("gives a new card to players with more than 2 cards on hands (i.e. HIT)", async () => {
+      const playersAmount = 1;
+      const gameRepository = new GameRepositoryInMemory();
+
+      const game = await StartGame.execute({ playersAmount, gameRepository });
+      const firstPlayer = game.players[0];
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await GiveCard.execute({
+        gameId: game.id,
+        round: 1,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const updatedGameRound1 = await gameRepository.getGameById(game.id);
+
+      const givenCard2 = await GiveCard.execute({
+        gameId: game.id,
+        round: 2,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const updatedGameRound2 = await gameRepository.getGameById(game.id);
+
+      const givenCard3 = await GiveCard.execute({
+        gameId: game.id,
+        round: 3,
+        playerId: firstPlayer.id,
+        gameRepository,
+      });
+
+      const updatedGameRound3 = await gameRepository.getGameById(game.id);
+
+      expect(givenCard2.isFaceUp).toBeTruthy();
+      expect(givenCard2.value).toBeDefined();
+      expect(givenCard2.worth).toBeDefined();
+      expect(givenCard2.worth).toBeGreaterThan(0);
+      expect(updatedGameRound1.rounds).toHaveLength(1);
+      expect(updatedGameRound1.rounds[0].players[0].cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds).toHaveLength(2);
+      expect(updatedGameRound2.rounds[0].players[0].cards).toHaveLength(1);
+      expect(updatedGameRound2.rounds[1].players[0].cards).toHaveLength(2);
+      expect(updatedGameRound3.rounds[2].players[0].cards).toHaveLength(3);
     });
   });
 
   describe("validation", () => {
-    it("throws an error when bets are not placed by players", async () => {
+    it("throws an error when giving cards before bets are placed by players", async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
