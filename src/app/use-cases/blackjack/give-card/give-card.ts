@@ -1,5 +1,6 @@
 import IGameRepository from "@/app/contracts/i-game-repository";
 import IUseCase from "@/app/contracts/i-use-case";
+import AppError from "@/app/errors/app-error";
 import {
   Card,
   DealerInRound,
@@ -24,11 +25,11 @@ class GiveCard implements IUseCase {
     const persistedGame = await gameRepository.getGameById(gameId);
 
     if (!persistedGame) {
-      throw new Error("Game not found!");
+      throw new AppError("Game not found!");
     }
 
-    if (persistedGame.bets.length === 0) {
-      throw new Error("Not possible to give cards before bets");
+    if (persistedGame.bets.length !== persistedGame.players.length) {
+      throw new AppError("Not possible to give cards before bets");
     }
 
     const doesRoundExist = persistedGame.rounds[round - 1];
@@ -53,7 +54,7 @@ class GiveCard implements IUseCase {
     }
 
     if (!player) {
-      throw new Error(
+      throw new AppError(
         `Player #${playerId} not found in game #${persistedGame.id}`
       );
     }

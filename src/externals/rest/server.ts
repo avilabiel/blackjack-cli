@@ -1,5 +1,6 @@
 import AppError from "@/app/errors/app-error";
 import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
+import GiveCard from "@/app/use-cases/blackjack/give-card";
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import config from "@/config";
 import express from "express";
@@ -51,6 +52,33 @@ route.post(
       });
 
       return res.send(response);
+    } catch (error: any) {
+      console.log("Caught error", error);
+
+      if (error instanceof AppError) {
+        return res.status(400).send({ message: error.message });
+      }
+
+      return res.status(500).send({ message: "Internal server error" });
+    }
+  }
+);
+
+route.post(
+  "/casino/blackjack/game/:gameId/players/:playerId/give-card",
+  async (req: Request, res: Response) => {
+    const { gameId, playerId } = req.params;
+    const { round } = req.body;
+
+    try {
+      const givenCard = await GiveCard.execute({
+        gameId: Number(gameId),
+        round,
+        playerId: playerId === "dealer" ? undefined : Number(playerId),
+        gameRepository: config.repositories.gameRepository,
+      });
+
+      return res.send(givenCard);
     } catch (error: any) {
       console.log("Caught error", error);
 

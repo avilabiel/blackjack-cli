@@ -74,6 +74,7 @@ These are the improvements that we will implement in the next versions of this C
 12. Players can log in and set their nickname
 13. Apply Github CICD to ensure our tests are passing on every push (to `main` or PRs)
 14. Apply automated tests for the game CLI
+15. In the REST API, the given hidden card from dealer should be revelead in a specific request to avoid sneaky peaks on Network Dev Tools
 
 ## How to contribute
 
@@ -131,7 +132,3 @@ yarn test --watch
 
 So far, we have this amount of tests:
 <img width="808" alt="image" src="https://github.com/avilabiel/blackjack-cli/assets/10943948/7bf96f63-b672-4b5c-b696-4d5b33641771">
-
-
-
-
