@@ -9,7 +9,7 @@
     "declaration": true,
     "declarationDir": "./dist/types",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
     },
     "moduleResolution": "Node",
     "skipLibCheck": true,
@@ -24,6 +24,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
+  "include": [
+    "./.eslintrc.js",
+    "./src/",
+  ],
   "parserOptions": {
     "project": "./tsconfig.json",
     "extraFileExtensions": [".json"]
