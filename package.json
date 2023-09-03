@@ -10,7 +10,8 @@
     "start-cli": "node ./dist/src/externals/game-cli",
     "start-http": "node ./dist/src/externals/rest/server",
     "test": "jest --coverage=false",
-    "test:coverage": "jest"
+    "test:coverage": "jest",
+    "lint": "eslint --ext .ts src/"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
@@ -19,11 +20,19 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.8",
     "@types/prompts": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "eslint": "^8.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
     "jest": "^29.6.2",
     "ts-jest": "^29.1.1",
     "ttsc": "^0.3.1",
-    "typescript": "^5.1.6",
-    "typescript-transform-paths": "^3.4.6"
+    "typescript": "*",
+    "typescript-transform-paths": "^3.4.6",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0"
   },
   "dependencies": {
     "express": "^4.18.2",
