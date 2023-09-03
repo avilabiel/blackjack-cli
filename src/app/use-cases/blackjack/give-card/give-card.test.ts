@@ -22,6 +22,27 @@ describe("GiveCard", () => {
         gameRepository,
       });
 
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: secondPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: thirdPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: fourthPlayer.id,
+        gameId: game.id,
+        gameRepository,
+      });
+
       const givenCardToDealer = await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -107,7 +128,7 @@ describe("GiveCard", () => {
       });
 
       const aceIndex = 0;
-      jest.spyOn(global.Math, "floor").mockReturnValue(aceIndex);
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(aceIndex);
 
       const firstGivenAceCard = await GiveCard.execute({
         gameId: game.id,
@@ -116,9 +137,10 @@ describe("GiveCard", () => {
         gameRepository,
       });
 
+      jest.spyOn(global.Math, "floor").mockReturnValueOnce(aceIndex);
       const secondGivenAceCard = await GiveCard.execute({
         gameId: game.id,
-        round: 1,
+        round: 2,
         playerId: firstPlayer.id,
         gameRepository,
       });
@@ -140,6 +162,13 @@ describe("GiveCard", () => {
       await CreatePlayerBet.execute({
         betAmount: 100,
         playerId: game.players[0].id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: game.players[1].id,
         gameId: game.id,
         gameRepository,
       });
@@ -169,6 +198,13 @@ describe("GiveCard", () => {
       await CreatePlayerBet.execute({
         betAmount: 100,
         playerId: game.players[0].id,
+        gameId: game.id,
+        gameRepository,
+      });
+
+      await CreatePlayerBet.execute({
+        betAmount: 100,
+        playerId: game.players[1].id,
         gameId: game.id,
         gameRepository,
       });
