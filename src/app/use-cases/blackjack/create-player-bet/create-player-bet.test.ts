@@ -1,9 +1,9 @@
-import CreatePlayerBet from ".";
-import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
-import StartGame from "@/app/use-cases/blackjack/start-game";
+import CreatePlayerBet from '.';
+import GameRepositoryInMemory from '@/externals/database/game-repository-in-memory';
+import StartGame from '@/app/use-cases/blackjack/start-game';
 
-describe("CreatePlayerBet", () => {
-  it("creates a bet for the given player", async () => {
+describe('CreatePlayerBet', () => {
+  it('creates a bet for the given player', async () => {
     const playersAmount = 4;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -29,7 +29,7 @@ describe("CreatePlayerBet", () => {
     expect(updatedGame?.players[0].balance).toEqual(500);
   });
 
-  it("creates a bet for each player with different amounts", async () => {
+  it('creates a bet for each player with different amounts', async () => {
     const playersAmount = 3;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -84,7 +84,7 @@ describe("CreatePlayerBet", () => {
     expect(updatedGame?.players[2].balance).toEqual(700);
   });
 
-  it("throws an error when player does not have enough balance", async () => {
+  it('throws an error when player does not have enough balance', async () => {
     const playersAmount = 4;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -101,11 +101,11 @@ describe("CreatePlayerBet", () => {
         gameRepository,
       });
     } catch (error: any) {
-      expect(error.message).toEqual("Player does not have enough balance!");
+      expect(error.message).toEqual('Player does not have enough balance!');
     }
   });
 
-  it("throws an error when game is not found", async () => {
+  it('throws an error when game is not found', async () => {
     const playersAmount = 4;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -122,11 +122,11 @@ describe("CreatePlayerBet", () => {
         gameRepository,
       });
     } catch (error: any) {
-      expect(error.message).toEqual("Game not found!");
+      expect(error.message).toEqual('Game not found!');
     }
   });
 
-  it("throws an error when player is not found", async () => {
+  it('throws an error when player is not found', async () => {
     const playersAmount = 4;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -142,11 +142,11 @@ describe("CreatePlayerBet", () => {
         gameRepository,
       });
     } catch (error: any) {
-      expect(error.message).toEqual("Player not found in this game!");
+      expect(error.message).toEqual('Player not found in this game!');
     }
   });
 
-  it("throws an error when the game has more rounds", async () => {
+  it('throws an error when the game has more rounds', async () => {
     const playersAmount = 1;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -170,7 +170,7 @@ describe("CreatePlayerBet", () => {
         gameRepository,
       });
     } catch (error: any) {
-      expect(error.message).toEqual("All players already placed their bets");
+      expect(error.message).toEqual('All players already placed their bets');
     }
   });
 });

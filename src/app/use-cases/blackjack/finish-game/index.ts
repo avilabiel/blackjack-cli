@@ -1,3 +1,3 @@
-import FinishGame from "./finish-game";
+import FinishGame from './finish-game';
 
 export default FinishGame;

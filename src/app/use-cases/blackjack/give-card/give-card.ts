@@ -1,13 +1,13 @@
-import IGameRepository from "@/app/contracts/i-game-repository";
-import IUseCase from "@/app/contracts/i-use-case";
-import AppError from "@/app/errors/app-error";
+import IGameRepository from '@/app/contracts/i-game-repository';
+import IUseCase from '@/app/contracts/i-use-case';
+import AppError from '@/app/errors/app-error';
 import {
   Card,
   DealerInRound,
   PlayerInRound,
   Round,
-} from "@/entities/blackjack-game";
-import Game from "@/entities/game";
+} from '@/entities/blackjack-game';
+import Game from '@/entities/game';
 
 class GiveCard implements IUseCase {
   async execute({
@@ -25,11 +25,11 @@ class GiveCard implements IUseCase {
     const persistedGame = await gameRepository.getGameById(gameId);
 
     if (!persistedGame) {
-      throw new AppError("Game not found!");
+      throw new AppError('Game not found!');
     }
 
     if (persistedGame.bets.length !== persistedGame.players.length) {
-      throw new AppError("Not possible to give cards before bets");
+      throw new AppError('Not possible to give cards before bets');
     }
 
     const doesRoundExist = persistedGame.rounds[round - 1];
@@ -39,10 +39,10 @@ class GiveCard implements IUseCase {
       persistedGame.rounds.push(newRound);
     }
 
-    const dealer = persistedGame.rounds[round - 1].dealer;
+    const { dealer } = persistedGame.rounds[round - 1];
 
     const player = persistedGame.rounds[round - 1].players.find(
-      (player) => player.player.id === playerId
+      (selectedPlayer) => selectedPlayer.player.id === playerId,
     );
 
     if (isDealer) {
@@ -55,7 +55,7 @@ class GiveCard implements IUseCase {
 
     if (!player) {
       throw new AppError(
-        `Player #${playerId} not found in game #${persistedGame.id}`
+        `Player #${playerId} not found in game #${persistedGame.id}`,
       );
     }
 
@@ -75,14 +75,12 @@ class GiveCard implements IUseCase {
       return copyOfPreviousRound;
     }
 
-    const players = game.players.map((player) => {
-      return {
-        player,
-        cards: [],
-        score: 0,
-        isBlackjack: false,
-      };
-    });
+    const players = game.players.map((player) => ({
+      player,
+      cards: [],
+      score: 0,
+      isBlackjack: false,
+    }));
 
     return {
       dealer: {
@@ -96,19 +94,19 @@ class GiveCard implements IUseCase {
 
   private getRandomUniqueCard(handSum: number): Card {
     const possibleCards = [
-      "A",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "J",
-      "Q",
-      "K",
+      'A',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      'J',
+      'Q',
+      'K',
     ];
     const min = 0;
     const max = possibleCards.length - 1;
@@ -121,15 +119,15 @@ class GiveCard implements IUseCase {
       handSum: 0,
     };
 
-    if (card.value === "A" && handSum <= 10) {
+    if (card.value === 'A' && handSum <= 10) {
       card.worth = 11;
     }
 
-    if (card.value === "A" && handSum > 10) {
+    if (card.value === 'A' && handSum > 10) {
       card.worth = 1;
     }
 
-    if (["J", "Q", "K"].includes(card.value)) {
+    if (['J', 'Q', 'K'].includes(card.value)) {
       card.worth = 10;
     }
 

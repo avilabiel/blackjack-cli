@@ -1,11 +1,11 @@
-import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
-import StartGame from "@/app/use-cases/blackjack/start-game";
-import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
-import CreatePlayerSplitAction from ".";
+import GameRepositoryInMemory from '@/externals/database/game-repository-in-memory';
+import StartGame from '@/app/use-cases/blackjack/start-game';
+import CreatePlayerBet from '@/app/use-cases/blackjack/create-player-bet';
+import GiveCard from '@/app/use-cases/blackjack/give-card';
+import CreatePlayerSplitAction from '.';
 
-describe("CreatePlayerSplitAction", () => {
-  it("splits the game into two different players", async () => {
+describe('CreatePlayerSplitAction', () => {
+  it('splits the game into two different players', async () => {
     const playersAmount = 1;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -20,7 +20,7 @@ describe("CreatePlayerSplitAction", () => {
     });
 
     // Gives 2 to Dealer as 1st card
-    jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+    jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
     await GiveCard.execute({
       gameId: game.id,
       round: 1,
@@ -28,7 +28,7 @@ describe("CreatePlayerSplitAction", () => {
     });
 
     // Gives K to Player #1 as 1st card
-    jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+    jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
     const firstCardToPlayer = await GiveCard.execute({
       gameId: game.id,
       round: 1,
@@ -37,7 +37,7 @@ describe("CreatePlayerSplitAction", () => {
     });
 
     // Gives 2 to Dealer as 2nd card
-    jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+    jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
     await GiveCard.execute({
       gameId: game.id,
       round: 2,
@@ -45,7 +45,7 @@ describe("CreatePlayerSplitAction", () => {
     });
 
     // Gives K to Player #1 as 2nd card
-    jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+    jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
     const secondCardToPlayer = await GiveCard.execute({
       gameId: game.id,
       round: 2,
@@ -76,11 +76,11 @@ describe("CreatePlayerSplitAction", () => {
 
     expect(lastRound.players[0].cards).toHaveLength(1);
     expect(lastRound.players[0].cards[0].value).toEqual(
-      firstCardToPlayer.value
+      firstCardToPlayer.value,
     );
     expect(lastRound.players[1].cards).toHaveLength(1);
     expect(lastRound.players[1].cards[0].value).toEqual(
-      secondCardToPlayer.value
+      secondCardToPlayer.value,
     );
     expect(updatedGame.players[0].id).toEqual(1);
     expect(updatedGame.players[0].originalPlayerId).toEqual(1);

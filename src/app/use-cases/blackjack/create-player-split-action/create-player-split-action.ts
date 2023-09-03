@@ -1,7 +1,7 @@
-import IGameRepository from "@/app/contracts/i-game-repository";
-import IUseCase from "@/app/contracts/i-use-case";
-import { PlayerInRound, Round } from "@/entities/blackjack-game";
-import Player from "@/entities/player";
+import IGameRepository from '@/app/contracts/i-game-repository';
+import IUseCase from '@/app/contracts/i-use-case';
+import { PlayerInRound, Round } from '@/entities/blackjack-game';
+import Player from '@/entities/player';
 
 class CreatePlayerSplitAction implements IUseCase {
   async execute({
@@ -16,11 +16,11 @@ class CreatePlayerSplitAction implements IUseCase {
     const persistedGame = await gameRepository.getGameById(gameId);
 
     if (!persistedGame) {
-      throw new Error("Game not found!");
+      throw new Error('Game not found!');
     }
 
     if (persistedGame.bets.length === 0) {
-      throw new Error("Not possible to give cards before bets");
+      throw new Error('Not possible to give cards before bets');
     }
 
     const originalAmountOfPlayers = persistedGame.rounds[0].players.length;
@@ -28,31 +28,30 @@ class CreatePlayerSplitAction implements IUseCase {
 
     if (isPlayerGeneratedFromSplit) {
       throw new Error(
-        "Players generated from a previous split cannot split again"
+        'Players generated from a previous split cannot split again',
       );
     }
 
     const lastRound = persistedGame.rounds[persistedGame.rounds.length - 1];
     const player = lastRound.players.find(
-      (player) => player.player.id === playerId
+      (foundPlayer) => foundPlayer.player.id === playerId,
     );
 
     if (!player) {
       throw new Error(
-        `Player #${playerId} not found in game #${persistedGame.id}`
+        `Player #${playerId} not found in game #${persistedGame.id}`,
       );
     }
 
     if (player.cards.length !== 2) {
-      throw new Error("Players can split only when they have two cards");
+      throw new Error('Players can split only when they have two cards');
     }
 
-    let isPlayerHandAllowedToSplit =
-      player.cards[0].worth === player.cards[1].worth;
+    const isPlayerHandAllowedToSplit = player.cards[0].worth === player.cards[1].worth;
 
     if (!isPlayerHandAllowedToSplit) {
       throw new Error(
-        "Players can split only with two cards with the same worth"
+        'Players can split only with two cards with the same worth',
       );
     }
 
@@ -88,7 +87,7 @@ class CreatePlayerSplitAction implements IUseCase {
           ],
           score: playerInRound.cards[0].worth,
         };
-      }
+      },
     );
 
     const newRound: Round = {

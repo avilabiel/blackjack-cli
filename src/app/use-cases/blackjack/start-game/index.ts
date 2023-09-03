@@ -1,3 +1,3 @@
-import StartGame from "./start-game";
+import StartGame from './start-game';
 
 export default StartGame;

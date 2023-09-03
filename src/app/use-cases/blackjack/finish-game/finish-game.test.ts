@@ -1,12 +1,12 @@
-import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
-import StartGame from "@/app/use-cases/blackjack/start-game";
-import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
-import CreatePlayerSplitAction from "@/app/use-cases/blackjack/create-player-split-action";
-import FinishGame from ".";
+import GameRepositoryInMemory from '@/externals/database/game-repository-in-memory';
+import StartGame from '@/app/use-cases/blackjack/start-game';
+import CreatePlayerBet from '@/app/use-cases/blackjack/create-player-bet';
+import GiveCard from '@/app/use-cases/blackjack/give-card';
+import CreatePlayerSplitAction from '@/app/use-cases/blackjack/create-player-split-action';
+import FinishGame from '.';
 
-describe("FinishGame", () => {
-  describe("single player", () => {
+describe('FinishGame', () => {
+  describe('single player', () => {
     it("returns the game with player #1 losing the game with a score lower than dealer's score", async () => {
       const playersAmount = 1;
       const gameRepository = new GameRepositoryInMemory();
@@ -22,7 +22,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -30,7 +30,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -39,7 +39,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -47,7 +47,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -68,7 +68,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(-100);
     });
 
-    it("returns the game with player #1 losing the game with a score higher than 21", async () => {
+    it('returns the game with player #1 losing the game with a score higher than 21', async () => {
       const playersAmount = 1;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -83,7 +83,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -91,7 +91,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -100,7 +100,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -108,7 +108,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -117,7 +117,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 3rd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -137,7 +137,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(-100);
     });
 
-    it("returns the game with player #1 pushing the game", async () => {
+    it('returns the game with player #1 pushing the game', async () => {
       const playersAmount = 1;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -152,7 +152,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -160,7 +160,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -169,7 +169,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -177,7 +177,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -198,7 +198,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(0);
     });
 
-    it("returns the game with player #1 winning the game", async () => {
+    it('returns the game with player #1 winning the game', async () => {
       const playersAmount = 1;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -213,7 +213,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -221,7 +221,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -230,7 +230,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -238,7 +238,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -259,7 +259,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(100);
     });
 
-    it("returns the game with player #1 winning the game with Blackjack", async () => {
+    it('returns the game with player #1 winning the game with Blackjack', async () => {
       const playersAmount = 1;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -274,7 +274,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -282,7 +282,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -291,7 +291,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -299,7 +299,7 @@ describe("FinishGame", () => {
       });
 
       // Gives A to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(0);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(0);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -321,8 +321,8 @@ describe("FinishGame", () => {
     });
   });
 
-  describe("multiplayer", () => {
-    it("returns the game with player #1 losing the game", async () => {
+  describe('multiplayer', () => {
+    it('returns the game with player #1 losing the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -345,7 +345,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -353,7 +353,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -362,7 +362,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -371,7 +371,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -379,7 +379,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -388,7 +388,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -409,7 +409,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(-100);
     });
 
-    it("returns the game with player #1 pushing the game", async () => {
+    it('returns the game with player #1 pushing the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -432,7 +432,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -440,7 +440,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -449,7 +449,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -458,7 +458,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -466,7 +466,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -475,7 +475,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -496,7 +496,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(0);
     });
 
-    it("returns the game with player #1 winning the game", async () => {
+    it('returns the game with player #1 winning the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -519,7 +519,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -527,7 +527,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -536,7 +536,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -545,7 +545,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -553,7 +553,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -562,7 +562,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -583,7 +583,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(100);
     });
 
-    it("returns the game with player #1 winning the game with Blackjack", async () => {
+    it('returns the game with player #1 winning the game with Blackjack', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -606,7 +606,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -614,7 +614,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -623,7 +623,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -632,7 +632,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -640,7 +640,7 @@ describe("FinishGame", () => {
       });
 
       // Gives ACE to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(0);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(0);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -649,7 +649,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -670,7 +670,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].prize).toEqual(150);
     });
 
-    it("returns the game with player #2 losing the game", async () => {
+    it('returns the game with player #2 losing the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -693,7 +693,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 3 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(2);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(2);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -701,7 +701,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -710,7 +710,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -719,7 +719,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 3 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(2);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(2);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -727,7 +727,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -736,7 +736,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -757,7 +757,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].prize).toEqual(-100);
     });
 
-    it("returns the game with player #2 pushing the game", async () => {
+    it('returns the game with player #2 pushing the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -780,7 +780,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -788,7 +788,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -797,7 +797,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -806,7 +806,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -814,7 +814,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -823,7 +823,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -844,7 +844,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].prize).toEqual(0);
     });
 
-    it("returns the game with player #2 winning the game", async () => {
+    it('returns the game with player #2 winning the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -867,7 +867,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -875,7 +875,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -884,7 +884,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -893,7 +893,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -901,7 +901,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -910,7 +910,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -931,7 +931,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].prize).toEqual(100);
     });
 
-    it("returns the game with player #2 winning the game with Blackjack", async () => {
+    it('returns the game with player #2 winning the game with Blackjack', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -954,7 +954,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -962,7 +962,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -971,7 +971,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -980,7 +980,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -988,7 +988,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -997,7 +997,7 @@ describe("FinishGame", () => {
       });
 
       // Gives ACE to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(0);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(0);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1018,7 +1018,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].prize).toEqual(150);
     });
 
-    it("returns the game with player #1 and #2 winning the game", async () => {
+    it('returns the game with player #1 and #2 winning the game', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -1041,7 +1041,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1049,7 +1049,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1058,7 +1058,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1067,7 +1067,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1075,7 +1075,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1084,7 +1084,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1111,8 +1111,8 @@ describe("FinishGame", () => {
     });
   });
 
-  describe("splitting", () => {
-    it("calculates as expected splitted games when both hands from the same player win", async () => {
+  describe('splitting', () => {
+    it('calculates as expected splitted games when both hands from the same player win', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -1135,7 +1135,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1143,7 +1143,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1152,7 +1152,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1161,7 +1161,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1169,7 +1169,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1178,7 +1178,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1194,7 +1194,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 3,
@@ -1203,7 +1203,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #3 (pointing to Player #1) as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 4,
@@ -1220,7 +1220,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].isWinner).toBeTruthy();
       expect(finishedGame.reports[0].player.id).toEqual(firstPlayer.id);
       expect(finishedGame.reports[0].player.originalPlayerId).toEqual(
-        firstPlayer.id
+        firstPlayer.id,
       );
       expect(game.players[0].balance).toEqual(1000);
       expect(finishedGame.players[0].balance).toEqual(1000);
@@ -1228,7 +1228,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].isWinner).toBeTruthy();
       expect(finishedGame.reports[1].player.id).toEqual(secondPlayer.id);
       expect(finishedGame.reports[1].player.originalPlayerId).toEqual(
-        secondPlayer.id
+        secondPlayer.id,
       );
       expect(game.players[1].balance).toEqual(1000);
       expect(finishedGame.players[1].balance).toEqual(1100);
@@ -1242,7 +1242,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[2].prize).toEqual(100);
     });
 
-    it("calculates as expected splitted games when only 1st hand from the same player win", async () => {
+    it('calculates as expected splitted games when only 1st hand from the same player win', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -1265,7 +1265,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1273,7 +1273,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1282,7 +1282,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1291,7 +1291,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 3 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(2);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(2);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1299,7 +1299,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1308,7 +1308,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1324,7 +1324,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 3,
@@ -1333,7 +1333,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #3 (pointing to Player #1) as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 4,
@@ -1350,7 +1350,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].isWinner).toBeTruthy();
       expect(finishedGame.reports[0].player.id).toEqual(firstPlayer.id);
       expect(finishedGame.reports[0].player.originalPlayerId).toEqual(
-        firstPlayer.id
+        firstPlayer.id,
       );
       expect(game.players[0].balance).toEqual(1000);
       expect(finishedGame.players[0].balance).toEqual(1000);
@@ -1358,7 +1358,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].isWinner).toBeTruthy();
       expect(finishedGame.reports[1].player.id).toEqual(secondPlayer.id);
       expect(finishedGame.reports[1].player.originalPlayerId).toEqual(
-        secondPlayer.id
+        secondPlayer.id,
       );
       expect(game.players[1].balance).toEqual(1000);
       expect(finishedGame.players[1].balance).toEqual(1100);
@@ -1372,7 +1372,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[2].prize).toEqual(-100);
     });
 
-    it("calculates as expected splitted games when only 2nd hand from the same player win", async () => {
+    it('calculates as expected splitted games when only 2nd hand from the same player win', async () => {
       const playersAmount = 2;
       const gameRepository = new GameRepositoryInMemory();
 
@@ -1395,7 +1395,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Dealer as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1403,7 +1403,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1412,7 +1412,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 1st card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 1,
@@ -1421,7 +1421,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 3 to Dealer as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(2);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(2);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1429,7 +1429,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #1 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1438,7 +1438,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #2 as 2nd card
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 2,
@@ -1454,7 +1454,7 @@ describe("FinishGame", () => {
       });
 
       // Gives 2 to Player #1 as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(1);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(1);
       await GiveCard.execute({
         gameId: game.id,
         round: 3,
@@ -1463,7 +1463,7 @@ describe("FinishGame", () => {
       });
 
       // Gives K to Player #3 (pointing to Player #1) as 2nd card after split
-      jest.spyOn(global.Math, "floor").mockReturnValueOnce(12);
+      jest.spyOn(global.Math, 'floor').mockReturnValueOnce(12);
       await GiveCard.execute({
         gameId: game.id,
         round: 4,
@@ -1480,7 +1480,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[0].isWinner).toBeFalsy();
       expect(finishedGame.reports[0].player.id).toEqual(firstPlayer.id);
       expect(finishedGame.reports[0].player.originalPlayerId).toEqual(
-        firstPlayer.id
+        firstPlayer.id,
       );
       expect(game.players[0].balance).toEqual(1000);
       expect(finishedGame.players[0].balance).toEqual(800);
@@ -1488,7 +1488,7 @@ describe("FinishGame", () => {
       expect(finishedGame.reports[1].isWinner).toBeTruthy();
       expect(finishedGame.reports[1].player.id).toEqual(secondPlayer.id);
       expect(finishedGame.reports[1].player.originalPlayerId).toEqual(
-        secondPlayer.id
+        secondPlayer.id,
       );
       expect(game.players[1].balance).toEqual(1000);
       expect(finishedGame.players[1].balance).toEqual(1100);
@@ -1503,8 +1503,8 @@ describe("FinishGame", () => {
     });
   });
 
-  describe("validations", () => {
-    it("throws an error when game is not found", async () => {
+  describe('validations', () => {
+    it('throws an error when game is not found', async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
@@ -1528,13 +1528,13 @@ describe("FinishGame", () => {
 
         await FinishGame.execute({ gameId: 1234, gameRepository });
 
-        throw new Error("Should have thrown an error above");
+        throw new Error('Should have thrown an error above');
       } catch (error) {
-        expect(error.message).toEqual("Game not found!");
+        expect(error.message).toEqual('Game not found!');
       }
     });
 
-    it("throws an error when tries to finish a game with players and dealer without 2 cards", async () => {
+    it('throws an error when tries to finish a game with players and dealer without 2 cards', async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
@@ -1557,10 +1557,10 @@ describe("FinishGame", () => {
 
         await FinishGame.execute({ gameId: game.id, gameRepository });
 
-        throw new Error("Should have thrown an error above");
+        throw new Error('Should have thrown an error above');
       } catch (error) {
         expect(error.message).toEqual(
-          "Not possible to finish a game without giving all cards"
+          'Not possible to finish a game without giving all cards',
         );
       }
     });

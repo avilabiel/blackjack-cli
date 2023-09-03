@@ -1,6 +1,6 @@
-import IGameRepository from "@/app/contracts/i-game-repository";
-import FinishGame from "@/app/use-cases/blackjack/finish-game";
-import Game from "@/entities/game";
+import IGameRepository from '@/app/contracts/i-game-repository';
+import FinishGame from '@/app/use-cases/blackjack/finish-game';
+import Game from '@/entities/game';
 
 const finishingGame = async ({
   game,
@@ -17,30 +17,29 @@ const finishingGame = async ({
   const lastRound = finishedGame.rounds[finishedGame.rounds.length - 1];
   const dealerCards = lastRound.dealer.cards.map((card) => card.value);
 
-  console.log("\n================== END GAME ==================\n");
+  console.log('\n================== END GAME ==================\n');
   console.log(
-    `Dealer | Cards: ${dealerCards.join(",")} | Score: ${
+    `Dealer | Cards: ${dealerCards.join(',')} | Score: ${
       lastRound.dealer.score
-    }`
+    }`,
   );
 
-  for (let i = 0; i < finishedGame.players.length; i++) {
+  for (let i = 0; i < finishedGame.players.length; i += 1) {
     const playerCards = finishedGame.reports[i].cards.map((card) => card.value);
-    const originalPlayerId = finishedGame.reports[i].player.originalPlayerId;
+    const { originalPlayerId } = finishedGame.reports[i].player;
     const playerId = finishedGame.reports[i].player.id;
-    const splitHandDescription =
-      originalPlayerId !== playerId
-        ? `| Hand from Player: #${originalPlayerId}`
-        : "";
+    const splitHandDescription = originalPlayerId !== playerId
+      ? `| Hand from Player: #${originalPlayerId}`
+      : '';
 
     console.log(
-      `Player #${i + 1} | Cards: ${playerCards.join(",")} | Score: ${
+      `Player #${i + 1} | Cards: ${playerCards.join(',')} | Score: ${
         finishedGame.reports[i].finalScore
       } | Winner: ${finishedGame.reports[i].isWinner} | Prize: ${
         finishedGame.reports[i].prize
       } | Final Balance: ${
         finishedGame.players[i].balance
-      } ${splitHandDescription}`
+      } ${splitHandDescription}`,
     );
   }
 };

@@ -1,4 +1,4 @@
-import Player from "./player";
+import Player from './player';
 
 export type Card = {
   value: number | string;
@@ -40,12 +40,19 @@ export type Report = {
 
 export default class BlackjackGame {
   id?: number;
+
   players: Player[];
+
   bets: Bet[];
+
   rounds: Round[];
+
   reports: Report[];
+
   allPlayersReady?: boolean;
+
   createdAt?: Date;
+
   finishedAt?: Date;
 
   constructor(props: BlackjackGame) {

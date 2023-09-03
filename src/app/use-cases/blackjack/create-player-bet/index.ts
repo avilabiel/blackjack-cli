@@ -1,3 +1,3 @@
-import CreatePlayerBet from "./create-player-bet";
+import CreatePlayerBet from './create-player-bet';
 
 export default CreatePlayerBet;

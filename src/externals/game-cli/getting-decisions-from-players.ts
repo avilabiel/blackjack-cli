@@ -1,11 +1,16 @@
-import IGameRepository from "@/app/contracts/i-game-repository";
-import CreatePlayerDoubleAction from "@/app/use-cases/blackjack/create-player-double-action";
-import CreatePlayerSplitAction from "@/app/use-cases/blackjack/create-player-split-action";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
-import config from "@/config";
-import { Card } from "@/entities/blackjack-game";
-import Game from "@/entities/game";
-import prompts from "prompts";
+import prompts from 'prompts';
+import IGameRepository from '@/app/contracts/i-game-repository';
+import CreatePlayerDoubleAction from '@/app/use-cases/blackjack/create-player-double-action';
+import CreatePlayerSplitAction from '@/app/use-cases/blackjack/create-player-split-action';
+import GiveCard from '@/app/use-cases/blackjack/give-card';
+import config from '@/config';
+import { Card } from '@/entities/blackjack-game';
+import Game from '@/entities/game';
+
+const displayGivenCard = (card: Card, playerIndex: number): void => {
+  console.log(`Player #${playerIndex}: Your card is ${card.value}`);
+  console.log(`Player #${playerIndex}: Your total score is ${card.handSum}`);
+};
 
 const gettingDecisionsFromPlayers = async ({
   game,
@@ -15,12 +20,12 @@ const gettingDecisionsFromPlayers = async ({
   gameRepository: IGameRepository;
 }): Promise<void> => {
   console.log(
-    `\n===================== TIME TO MAKE YOUR DECISIONS! =====================`
+    '\n===================== TIME TO MAKE YOUR DECISIONS! =====================',
   );
 
   let gamePlayersLength = game.players.length;
 
-  for (let i = 1; i <= gamePlayersLength; i++) {
+  for (let i = 1; i <= gamePlayersLength; i += 1) {
     let doesPlayerCanAct = true;
 
     while (doesPlayerCanAct) {
@@ -32,31 +37,31 @@ const gettingDecisionsFromPlayers = async ({
       const cardValues = playerState.cards.map((card) => card.value);
 
       console.log(
-        `\nPLAYER #${i} | Cards: ${cardValues.join(",")} | Score: ${
+        `\nPLAYER #${i} | Cards: ${cardValues.join(',')} | Score: ${
           playerState.score
-        }`
+        }`,
       );
 
       const actions = await prompts({
-        type: "select",
-        name: "response",
+        type: 'select',
+        name: 'response',
         message: `PLAYER #${i}: Pick your action`,
         choices: [
-          { title: "Hit", value: "Hit" },
-          { title: "Stand", value: "Stand" },
-          { title: "Double", value: "Double" },
-          { title: "Split", value: "Split" },
+          { title: 'Hit', value: 'Hit' },
+          { title: 'Stand', value: 'Stand' },
+          { title: 'Double', value: 'Double' },
+          { title: 'Split', value: 'Split' },
         ],
       });
 
       console.log(`Player #${i} picks ${actions.response}`);
 
-      if (actions.response === "Stand") {
+      if (actions.response === 'Stand') {
         doesPlayerCanAct = false;
         break;
       }
 
-      if (actions.response === "Hit") {
+      if (actions.response === 'Hit') {
         const givenCard = await GiveCard.execute({
           gameId: game.id,
           round,
@@ -70,10 +75,10 @@ const gettingDecisionsFromPlayers = async ({
           const isThereANextPlayer = i + 1 < game.players.length;
           const movingToTheNextPlayer = isThereANextPlayer
             ? `Moving to the Player #${i + 1}`
-            : "";
+            : '';
 
           console.log(
-            `Player #${i}: Your score is above 21, you LOSE! ${movingToTheNextPlayer}`
+            `Player #${i}: Your score is above 21, you LOSE! ${movingToTheNextPlayer}`,
           );
 
           doesPlayerCanAct = false;
@@ -81,7 +86,7 @@ const gettingDecisionsFromPlayers = async ({
         }
       }
 
-      if (actions.response === "Double") {
+      if (actions.response === 'Double') {
         const givenCardFromDouble = await CreatePlayerDoubleAction.execute({
           gameId: game.id,
           round,
@@ -95,27 +100,22 @@ const gettingDecisionsFromPlayers = async ({
         break;
       }
 
-      if (actions.response === "Split") {
+      if (actions.response === 'Split') {
         await CreatePlayerSplitAction.execute({
           gameId: game.id,
           playerId: i,
           gameRepository,
         });
 
-        gamePlayersLength++;
+        gamePlayersLength += 1;
 
-        console.log(`Now we are splitting your cards...`);
+        console.log('Now we are splitting your cards...');
         console.log(
-          `Player #${i} now has a new player as a second hand. New player: PLAYER #${gamePlayersLength}`
+          `Player #${i} now has a new player as a second hand. New player: PLAYER #${gamePlayersLength}`,
         );
       }
     }
   }
-};
-
-const displayGivenCard = (card: Card, playerIndex: number): void => {
-  console.log(`Player #${playerIndex}: Your card is ${card.value}`);
-  console.log(`Player #${playerIndex}: Your total score is ${card.handSum}`);
 };
 
 export default gettingDecisionsFromPlayers;
