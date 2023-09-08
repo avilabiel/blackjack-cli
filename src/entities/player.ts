@@ -1,6 +1,8 @@
 export default class Player {
   id?: number;
+
   balance: number;
+
   originalPlayerId?: number;
 
   constructor(props: Player) {

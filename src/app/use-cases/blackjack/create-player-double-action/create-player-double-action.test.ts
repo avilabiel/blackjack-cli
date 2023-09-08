@@ -1,11 +1,11 @@
-import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
-import StartGame from "@/app/use-cases/blackjack/start-game";
-import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
-import GiveCard from "@/app/use-cases/blackjack/give-card";
-import CreatePlayerDoubleAction from ".";
+import GameRepositoryInMemory from '@/externals/database/game-repository-in-memory';
+import StartGame from '@/app/use-cases/blackjack/start-game';
+import CreatePlayerBet from '@/app/use-cases/blackjack/create-player-bet';
+import GiveCard from '@/app/use-cases/blackjack/give-card';
+import CreatePlayerDoubleAction from '.';
 
-describe("CreatePlayerDoubleAction", () => {
-  it("gives a new card to the player", async () => {
+describe('CreatePlayerDoubleAction', () => {
+  it('gives a new card to the player', async () => {
     const playersAmount = 1;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -49,7 +49,7 @@ describe("CreatePlayerDoubleAction", () => {
     expect(updatedGame.rounds).toHaveLength(3);
   });
 
-  it("doubles the bet from player", async () => {
+  it('doubles the bet from player', async () => {
     const playersAmount = 1;
     const gameRepository = new GameRepositoryInMemory();
 
@@ -95,8 +95,8 @@ describe("CreatePlayerDoubleAction", () => {
     expect(gameAfterDoublingBet.bets[0].amount).toEqual(200);
   });
 
-  describe("validations", () => {
-    it("throws an error when game not found", async () => {
+  describe('validations', () => {
+    it('throws an error when game not found', async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
@@ -125,13 +125,13 @@ describe("CreatePlayerDoubleAction", () => {
           gameRepository,
         });
 
-        throw new Error("Should have thrown an error above");
+        throw new Error('Should have thrown an error above');
       } catch (error) {
-        expect(error.message).toEqual("Game not found!");
+        expect(error.message).toEqual('Game not found!');
       }
     });
 
-    it("throws an error when cards are not fully given yet", async () => {
+    it('throws an error when cards are not fully given yet', async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
@@ -159,15 +159,15 @@ describe("CreatePlayerDoubleAction", () => {
           gameRepository,
         });
 
-        throw new Error("Should have thrown an error above");
+        throw new Error('Should have thrown an error above');
       } catch (error) {
         expect(error.message).toEqual(
-          "Not possible to double without having all cards"
+          'Not possible to double without having all cards',
         );
       }
     });
 
-    it("throws an error when player is not found", async () => {
+    it('throws an error when player is not found', async () => {
       try {
         const playersAmount = 1;
         const gameRepository = new GameRepositoryInMemory();
@@ -201,9 +201,9 @@ describe("CreatePlayerDoubleAction", () => {
           gameRepository,
         });
 
-        throw new Error("Should have thrown an error above");
+        throw new Error('Should have thrown an error above');
       } catch (error) {
-        expect(error.message).toEqual("Player not found in this game!");
+        expect(error.message).toEqual('Player not found in this game!');
       }
     });
   });

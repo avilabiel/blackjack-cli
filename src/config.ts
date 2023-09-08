@@ -1,4 +1,4 @@
-import GameRepositoryInMemory from "@/externals/database/game-repository-in-memory";
+import GameRepositoryInMemory from '@/externals/database/game-repository-in-memory';
 
 export default {
   repositories: {

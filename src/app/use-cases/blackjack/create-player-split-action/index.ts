@@ -1,3 +1,3 @@
-import CreatePlayerSplitAction from "./create-player-split-action";
+import CreatePlayerSplitAction from './create-player-split-action';
 
 export default CreatePlayerSplitAction;

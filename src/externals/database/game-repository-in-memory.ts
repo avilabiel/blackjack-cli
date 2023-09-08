@@ -1,5 +1,5 @@
-import IGameRepository from "@/app/contracts/i-game-repository";
-import Game from "@/entities/game";
+import IGameRepository from '@/app/contracts/i-game-repository';
+import Game from '@/entities/game';
 
 export default class GameRepositoryInMemory implements IGameRepository {
   private games: Game[] = [];
@@ -30,7 +30,7 @@ export default class GameRepositoryInMemory implements IGameRepository {
 
   save(game: Game): Promise<void> {
     const gameIndex = this.games.findIndex(
-      (persistedGame) => persistedGame.id === game.id
+      (persistedGame) => persistedGame.id === game.id,
     );
 
     this.games[gameIndex] = game;

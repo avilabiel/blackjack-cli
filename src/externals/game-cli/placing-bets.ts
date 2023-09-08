@@ -1,14 +1,15 @@
-import prompts from "prompts";
+import prompts from 'prompts';
 
-import Game from "@/entities/game";
-import CreatePlayerBet from "@/app/use-cases/blackjack/create-player-bet";
-import config from "@/config";
+import Game from '@/entities/game';
+import CreatePlayerBet from '@/app/use-cases/blackjack/create-player-bet';
+import config from '@/config';
 
 const placingBets = async (game: Game) => {
-  for (let i = 1; i <= game.players.length; i++) {
+  for (let i = 1; i <= game.players.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
     await prompts({
-      type: "number",
-      name: "response",
+      type: 'number',
+      name: 'response',
       message: `Player #${i}, please let us know your bet (any integer)`,
       validate: async (value) => {
         try {
