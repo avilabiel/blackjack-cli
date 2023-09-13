@@ -4,10 +4,13 @@ import GiveCard from "@/app/use-cases/blackjack/give-card";
 import StartGame from "@/app/use-cases/blackjack/start-game";
 import config from "@/config";
 import express from "express";
+import cors from "cors";
 
 import { Router, Request, Response } from "express";
 
 const app = express();
+
+app.use(cors());
 
 const route = Router();
 
